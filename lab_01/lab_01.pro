@@ -9,11 +9,27 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    draw.cpp \
+    erorrs.cpp \
+    line.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    model.cpp \
+    model_io.cpp \
+    point.cpp \
+    request.cpp \
+    transformation.cpp
 
 HEADERS += \
-    mainwindow.h
+    draw.h \
+    erorrs.h \
+    line.h \
+    mainwindow.h \
+    model.h \
+    model_io.h \
+    point.h \
+    request.h \
+    transformation.h
 
 FORMS += \
     mainwindow.ui
@@ -22,3 +38,7 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    input.txt \
+    lab_01.pro.user

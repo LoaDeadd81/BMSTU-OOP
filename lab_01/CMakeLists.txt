@@ -21,7 +21,7 @@ add_executable(lab_01
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        )
+        request.cpp request.h point.h line.h model_io.cpp model_io.h model.cpp model.h draw.cpp draw.h transformation.cpp transformation.h erorrs.cpp erorrs.h point.cpp line.cpp)
 
 target_link_libraries(lab_01
         Qt::Core
@@ -30,3 +30,4 @@ target_link_libraries(lab_01
         )
 
 include_directories(./inc)
+
