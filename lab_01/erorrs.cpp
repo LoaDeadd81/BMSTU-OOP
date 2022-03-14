@@ -20,6 +20,12 @@ QString error_interpretation(error_code rc)
         case DATA_ACCESS_ERROR:
             err_message = "Ошибка доступа в память";
             break;
+        case DATA_ERROR:
+            err_message = "Исправьте поля выделенные красным";
+            break;
+        case EXISTING_ERROR:
+            err_message = "Необходимо загрузить модель";
+            break;
         default:
             err_message = "Неизвестная ошибка";
             break;

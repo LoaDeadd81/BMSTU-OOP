@@ -6,7 +6,6 @@
 
 typedef struct model
 {
-    point center;
     point_vector points;
     line_vector links;
 } model;

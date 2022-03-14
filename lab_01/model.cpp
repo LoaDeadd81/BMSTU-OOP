@@ -3,7 +3,6 @@
 model init_model()
 {
     model tmp;
-    tmp.center = {0, 0};
     tmp.points = init_point_vector();
     tmp.links = init_line_vector();
     return tmp;

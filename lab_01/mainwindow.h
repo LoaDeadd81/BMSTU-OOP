@@ -40,7 +40,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
-//    QPen pen;
+    bool is_exist;
     error_code do_read_request();
     error_code do_draw_request();
     error_code do_move_request();

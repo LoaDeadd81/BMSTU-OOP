@@ -2,7 +2,7 @@
 
 error_code draw_links(line_vector &line_vec, point_vector &point_vac, QGraphicsScene *scene);
 
-error_code draw_line(point &start, point &end, QGraphicsScene *scene);
+void draw_line(point &start, point &end, QGraphicsScene *scene);
 
 error_code draw_model(model &figure, draw_request &request)
 {
@@ -28,10 +28,10 @@ error_code draw_links(line_vector &line_vec, point_vector &point_vac, QGraphicsS
     return rc;
 }
 
-error_code draw_line(point &start, point &end, QGraphicsScene *scene)
+void draw_line(point &start, point &end, QGraphicsScene *scene)
 {
 //    scene->addLine(start.x + scene->width() / 2, -start.y + scene->height() / 2,
 //                   end.x + scene->width() / 2, -end.y + scene->height() / 2);
     scene->addLine(start.x, -start.y, end.x , -end.y );
-    return SUCCESS;
+
 }
