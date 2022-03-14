@@ -6,6 +6,13 @@
 
 #include <cmath>
 
+#define EPS 1e-3
+
+typedef struct transform_coeff
+{
+    double x, y, z;
+} transform_coeff;
+
 typedef struct point
 {
     double x, y, z;
@@ -27,16 +34,12 @@ int get_points_num(point_vector &point_vec);
 
 error_code alloc_point_vector(point_vector &point_vec, int num);
 
-error_code move_point_vector(point_vector &point_vec, double dx, double dy, double dz);
+error_code move_point_vector(point_vector &point_vec, transform_coeff move_coeff);
 
-error_code scale_point_vector(point_vector &point_vec, point center, double kx, double ky, double kz);
+error_code scale_point_vector(point_vector &point_vec, point center, transform_coeff scale_coeff);
 
-error_code rotate_point_vector(point_vector &point_vec, point center, double cx, double cy, double cz);
+error_code rotate_point_vector(point_vector &point_vec, point center, transform_coeff rotate_coeff);
 
-void move_point(point &cur_point, double dx, double dy, double dz);
-
-void scale_point(point &cur_point, point center, double kx, double ky, double kz);
-
-void rotate_point(point &cur_point, point center, double cx, double cy, double cz);
+error_code deep_copy(point_vector &dst, point_vector &src);
 
 #endif 

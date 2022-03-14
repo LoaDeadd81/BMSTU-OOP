@@ -24,3 +24,11 @@ bool is_model_exist(model &figure)
 {
     return is_point_vector_exist(figure.points) && is_line_vec_exist(figure.links);
 }
+
+error_code deep_copy(model &dst, model &src)
+{
+    error_code rc = deep_copy(dst.points, src.points);
+    if(rc == SUCCESS)
+        rc = deep_copy(dst.links, src.links);
+    return rc;
+}

@@ -18,5 +18,7 @@ void reinit_model(model &figure);
 
 bool is_model_exist(model &figure);
 
+error_code deep_copy(model &dst, model& src);
+
 
 #endif 

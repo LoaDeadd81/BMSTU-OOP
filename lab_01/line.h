@@ -24,4 +24,6 @@ error_code alloc_line_vector(line_vector &line_vec, int num);
 
 error_code check_line_vector(line_vector &line_vec, int points_num);
 
+error_code deep_copy(line_vector &dst, line_vector &src);
+
 #endif 

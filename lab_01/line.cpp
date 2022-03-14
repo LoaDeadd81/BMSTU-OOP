@@ -41,4 +41,12 @@ error_code check_line_vector(line_vector &line_vec, int points_num)
     return rc;
 }
 
+error_code deep_copy(line_vector &dst, line_vector &src)
+{
+    error_code rc = alloc_line_vector(dst, src.len);
+    if(rc == SUCCESS)
+        memcpy(dst.arr, src.arr, sizeof(line) * src.len);
+    return rc;
+}
+
 
