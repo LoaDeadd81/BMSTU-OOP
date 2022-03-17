@@ -21,7 +21,7 @@ add_executable(lab_01
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        Request.cpp Request.h ErrorType.cpp ErrorType.h FrameModel.cpp FrameModel.h Edge.cpp Edge.h Point.cpp Point.h RequestTypes.h)
+        Request.cpp Request.h ErrorType.cpp ErrorType.h FrameModel.cpp FrameModel.h Edge.cpp Edge.h Point.cpp Point.h RequestTypes.h draw.cpp draw.h)
 
 target_link_libraries(lab_01
         Qt::Core

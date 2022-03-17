@@ -1,7 +1,9 @@
 #include "FrameModel.h"
 
 error_code input_tmp_model(frame_model &model, FILE *f);
+
 error_code check_tmp_model(const frame_model &model);
+
 void free_model(frame_model &model);
 
 frame_model init_model()
@@ -17,13 +19,13 @@ error_code input_model(frame_model &model, const input_request &request)
 
     FILE *f = fopen(request.filename, "r");
     error_code rc = SUCCESS;
-    if(f == nullptr)
+    if (f == nullptr)
         rc = FILE_OPENING_ERROR;
     else
     {
         rc = input_tmp_model(tmp_model, f);
         fclose(f);
-        if(rc == SUCCESS)
+        if (rc == SUCCESS)
         {
             rc = check_tmp_model(tmp_model);
             if (rc == SUCCESS)
@@ -71,7 +73,7 @@ error_code del_model(frame_model &model)
 error_code input_tmp_model(frame_model &model, FILE *f)
 {
     error_code rc = input_points(model.points, f);
-    if(rc == SUCCESS)
+    if (rc == SUCCESS)
     {
         rc = input_edges(model.edges, f);
         if (rc != SUCCESS)
