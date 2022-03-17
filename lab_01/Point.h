@@ -4,6 +4,9 @@
 #include "ErrorType.h"
 #include "RequestTypes.h"
 
+#include <cstdlib>
+#include <cstdio>
+
 typedef struct point_type
 {
     double x, y, z;
@@ -19,9 +22,9 @@ points_type init_points();
 
 void free_points(points_type &points);
 
-int len();
+int len(const points_type &points);
 
-error_code input_points(points_type &points, const FILE *f);
+error_code input_points(points_type &points, FILE *f);
 
 error_code move_points(points_type &points, const transform_data &data);
 

@@ -1,6 +1,6 @@
 #include "FrameModel.h"
 
-error_code input_tmp_model(frame_model &model, const FILE *f);
+error_code input_tmp_model(frame_model &model, FILE *f);
 error_code check_tmp_model(const frame_model &model);
 void free_model(frame_model &model);
 
@@ -16,17 +16,17 @@ error_code input_model(frame_model &model, const input_request &request)
     frame_model tmp_model = init_model();
 
     FILE *f = fopen(request.filename, "r");
-    error_code ec = SUCCESS;
+    error_code rc = SUCCESS;
     if(f == nullptr)
-        ec = FILE_OPENING_ERROR;
+        rc = FILE_OPENING_ERROR;
     else
     {
-        ec = input_tmp_model(tmp_model, f);
+        rc = input_tmp_model(tmp_model, f);
         fclose(f);
-        if(ec == SUCCESS)
+        if(rc == SUCCESS)
         {
-            ec = check_tmp_model(tmp_model);
-            if (ec == SUCCESS)
+            rc = check_tmp_model(tmp_model);
+            if (rc == SUCCESS)
             {
                 free_model(model);
                 model = tmp_model;
@@ -35,32 +35,32 @@ error_code input_model(frame_model &model, const input_request &request)
                 free_model(model);
         }
     }
-    return ec;
+    return rc;
 }
 
 error_code draw_model(frame_model &model, draw_request &request)
 {
     request.scene->clear();
-    error_code ec = draw_edges(model.edges, request.scene);
-    return ec;
+    error_code rc = draw_edges(model.edges, request.scene);
+    return rc;
 }
 
 error_code move_model(frame_model &model, const move_request &request)
 {
-    error_code ec = move_points(model.points, request.move_data);
-    return ec;
+    error_code rc = move_points(model.points, request.move_data);
+    return rc;
 }
 
 error_code scale_model(frame_model &model, const scale_request &request)
 {
-    error_code ec = scale_points(model.points, request.center, request.scale_data);
-    return ec;
+    error_code rc = scale_points(model.points, request.center, request.scale_data);
+    return rc;
 }
 
 error_code rotate_model(frame_model &model, const rotate_request &request)
 {
-    error_code ec = rotate_points(model.points, request.center, request.rotate_data);
-    return ec;
+    error_code rc = rotate_points(model.points, request.center, request.rotate_data);
+    return rc;
 }
 
 error_code del_model(frame_model &model)
@@ -68,24 +68,24 @@ error_code del_model(frame_model &model)
     free_model(model);
 }
 
-error_code input_tmp_model(frame_model &model, const FILE *f)
+error_code input_tmp_model(frame_model &model, FILE *f)
 {
-    error_code ec = input_points(model.points, f);
-    if(ec == SUCCESS)
+    error_code rc = input_points(model.points, f);
+    if(rc == SUCCESS)
     {
-        ec = input_edges(model.edges, f);
-        if (ec != SUCCESS)
+        rc = input_edges(model.edges, f);
+        if (rc != SUCCESS)
             free_edges(model.edges);
     }
     else
         free_points(model.points);
-    return ec;
+    return rc;
 }
 
 error_code check_tmp_model(const frame_model &model)
 {
-    error_code ec = check_edges(model.edges, model.edges.len);
-    return ec;
+    error_code rc = check_edges(model.edges, len(model.points));
+    return rc;
 }
 
 void free_model(frame_model &model)
