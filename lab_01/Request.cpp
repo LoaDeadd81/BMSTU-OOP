@@ -1,25 +1,25 @@
 #include "Request.h"
 
-error_code do_request(IN const request &action)
+error_code do_request(request &action)
 {
     static frame_model figure = init_model();
     error_code rc = SUCCESS;
     switch (action.type)
     {
         case INPUT:
-            rc = input_model(figure, action.read);
+            rc = input(figure, action.read);
             break;
         case DRAW:
-            rc = draw_model(figure, action.draw);
+            rc = draw(figure, action.draw);
             break;
         case MOVE:
-            rc = move_model(figure, action.move);
+            rc = move(figure, action.move);
             break;
         case SCALE:
-            rc = scale_model(figure, action.scale);
+            rc = scale(figure, action.scale);
             break;
         case ROTATE:
-            rc = rotate_model(figure, action.rotate);
+            rc = rotate(figure, action.rotate);
             break;
         case DEL:
             del_model(figure);

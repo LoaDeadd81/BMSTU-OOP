@@ -2,7 +2,6 @@
 #define POINT_H
 
 #include "ErrorType.h"
-#include "RequestTypes.h"
 
 #include <cstdlib>
 #include <cstdio>
@@ -17,6 +16,11 @@ typedef struct points_type
     point_type *array;
     int len;
 } points_type;
+
+typedef struct transform_data
+{
+    double a, b, c;
+} transform_data;
 
 points_type init_points();
 

@@ -1,8 +1,18 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "Point.h"
+#include <QGraphicsScene>
 
-error_code draw_line(const point_type &start, const point_type &end, QGraphicsScene *scene);
+#include "FrameModel.h"
+#include "ErrorType.h"
+
+typedef struct draw_request
+{
+    QGraphicsScene *scene;
+} draw_request;
+
+error_code draw(frame_model &model, draw_request &request);
+
+
 
 #endif 

@@ -3,7 +3,6 @@
 
 #include "ErrorType.h"
 #include "Point.h"
-#include "draw.h"
 
 #include <QGraphicsScene>
 #include <cstdio>

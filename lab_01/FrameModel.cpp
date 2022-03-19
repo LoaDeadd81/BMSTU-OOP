@@ -13,11 +13,11 @@ frame_model init_model()
     return {points, edges};
 }
 
-error_code input_model(frame_model &model, const input_request &request)
+//var in
+error_code input_model(frame_model &model, const char *filename)
 {
     frame_model tmp_model = init_model();
-
-    FILE *f = fopen(request.filename, "r");
+    FILE *f = fopen(filename, "r");
     error_code rc = SUCCESS;
     if (f == nullptr)
         rc = FILE_OPENING_ERROR;
@@ -34,53 +34,64 @@ error_code input_model(frame_model &model, const input_request &request)
                 model = tmp_model;
             }
             else
-                free_model(model);
+                free_model(tmp_model);
         }
     }
     return rc;
 }
 
-error_code draw_model(frame_model &model, draw_request &request)
+error_code draw_model(frame_model &model, QGraphicsScene *scene)
 {
-    request.scene->clear();
-    error_code rc = draw_edges(model.edges, request.scene);
+    error_code rc = SUCCESS;
+    if(scene == nullptr)
+        rc = ACCESS_ERROR;
+    else
+    {
+        scene->clear();
+        rc = draw_edges(model.edges, model.points, scene);
+    }
     return rc;
 }
 
-error_code move_model(frame_model &model, const move_request &request)
+error_code move_model(frame_model &model, const transform_data &move_data)
 {
-    error_code rc = move_points(model.points, request.move_data);
+    error_code rc = move_points(model.points, move_data);
     return rc;
 }
 
-error_code scale_model(frame_model &model, const scale_request &request)
+error_code scale_model(frame_model &model, const point_type &center, const transform_data &scale_data)
 {
-    error_code rc = scale_points(model.points, request.center, request.scale_data);
+    error_code rc = scale_points(model.points, center, scale_data);
     return rc;
 }
 
-error_code rotate_model(frame_model &model, const rotate_request &request)
+error_code rotate_model(frame_model &model, const point_type &center, const transform_data &rotate_data)
 {
-    error_code rc = rotate_points(model.points, request.center, request.rotate_data);
+    error_code rc = rotate_points(model.points, center, rotate_data);
     return rc;
 }
 
-error_code del_model(frame_model &model)
+void del_model(frame_model &model)
 {
     free_model(model);
 }
 
+//out in
 error_code input_tmp_model(frame_model &model, FILE *f)
 {
-    error_code rc = input_points(model.points, f);
-    if (rc == SUCCESS)
-    {
-        rc = input_edges(model.edges, f);
-        if (rc != SUCCESS)
-            free_edges(model.edges);
-    }
+    error_code rc = SUCCESS;
+    if(f == nullptr)
+        rc = ACCESS_ERROR;
     else
-        free_points(model.points);
+    {
+        rc = input_points(model.points, f);
+        if (rc == SUCCESS)
+        {
+            rc = input_edges(model.edges, f);
+            if (rc != SUCCESS)
+                free_points(model.points);
+        }
+    }
     return rc;
 }
 

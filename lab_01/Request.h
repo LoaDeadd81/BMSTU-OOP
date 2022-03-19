@@ -2,8 +2,9 @@
 #define REQUEST_H
 
 #include "ErrorType.h"
-#include "FrameModel.h"
-#include "RequestTypes.h"
+#include "io.h"
+#include "draw.h"
+#include "transform.h"
 
 enum request_type
 {
@@ -25,6 +26,6 @@ struct request
 
 
 
-error_code do_request(const request &action);
+error_code do_request(request &action);
 
 #endif 

@@ -4,7 +4,6 @@
 #include "Point.h"
 #include "Edge.h"
 #include "ErrorType.h"
-#include "RequestTypes.h"
 
 #include <cstdio>
 
@@ -16,16 +15,16 @@ typedef struct frame_model
 
 frame_model init_model();
 
-error_code input_model(frame_model &model, const input_request &request);
+error_code input_model(frame_model &model, const char *filename);
 
-error_code draw_model(frame_model &model, draw_request &request);
+error_code draw_model(frame_model &model, QGraphicsScene *scene);
 
-error_code move_model(frame_model &model, const move_request &request);
+error_code move_model(frame_model &model, const transform_data &move_data);
 
-error_code scale_model(frame_model &model, const scale_request &request);
+error_code scale_model(frame_model &model, const point_type &center, const transform_data &scale_data);
 
-error_code rotate_model(frame_model &model, const rotate_request &request);
+error_code rotate_model(frame_model &model, const point_type &center, const transform_data &rotate_data);
 
-error_code del_model(frame_model &model);
+void del_model(frame_model &model);
 
 #endif 

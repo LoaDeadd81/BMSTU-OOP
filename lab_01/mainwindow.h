@@ -29,8 +29,6 @@ private slots:
 
     void on_GetDataButton_clicked();
 
-//    void on_SelectCenterButton_clicked();
-
     void on_MoveButton_clicked();
 
     void on_ScaleButton_clicked();
@@ -46,6 +44,6 @@ private:
     error_code do_move_request();
     error_code do_scale_request();
     error_code do_rotate_request();
-//    error_code get_center(point &center);
+    error_code get_center(point_type &center);
 };
 #endif

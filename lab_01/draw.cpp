@@ -1,6 +1,8 @@
 #include "draw.h"
 
-error_code draw_line(const point_type &start, const point_type &end, QGraphicsScene *scene)
+error_code draw(frame_model &model, draw_request &request)
 {
-    scene->addLine(start.x, -start.y, end.x , -end.y );
+    return draw_model(model, request.scene);
 }
+
+
