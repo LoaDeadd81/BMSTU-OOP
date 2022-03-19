@@ -22,7 +22,7 @@ error_code do_request(request &action)
             rc = rotate(figure, action.rotate);
             break;
         case DEL:
-            del_model(figure);
+            free_model(figure);
             break;
         default:
             rc = REQUEST_ERROR;

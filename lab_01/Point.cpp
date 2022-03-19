@@ -2,6 +2,8 @@
 
 error_code input_tmp_points(points_type &points, FILE *f);
 
+error_code alloc_points_array(points_type &points, int num);
+
 
 void move_point(point_type &point, const transform_data &data);
 
@@ -45,8 +47,9 @@ error_code move_points(points_type &points, const transform_data &data)
     error_code rc = SUCCESS;
     if (points.array == nullptr)
         rc = ACCESS_ERROR;
-    for (int i = 0; i < points.len; i++)
-        move_point(points.array[i], data);
+    else
+        for (int i = 0; i < points.len; i++)
+            move_point(points.array[i], data);
     return rc;
 }
 
@@ -56,10 +59,8 @@ error_code scale_points(points_type &points, const point_type &center, const tra
     if (points.array == nullptr)
         rc = ACCESS_ERROR;
     else
-    {
         for (int i = 0; i < points.len; i++)
             scale_point(points.array[i], center, data);
-    }
     return rc;
 }
 
@@ -69,9 +70,22 @@ error_code rotate_points(points_type &points, const point_type &center, const tr
     if (points.array == nullptr)
         rc = ACCESS_ERROR;
     else
-    {
         for (int i = 0; i < points.len; i++)
             rotate_point(points.array[i], center, data);
+    return rc;
+}
+
+error_code deep_copy(points_type &dst, const points_type &src)
+{
+    error_code rc = SUCCESS;
+    if(src.array == nullptr)
+        rc = ACCESS_ERROR;
+    else
+    {
+        rc = alloc_points_array(dst, src.len);
+        if(rc == SUCCESS)
+            for (int i = 0; i < src.len; i++)
+                dst.array[i] = src.array[i];
     }
     return rc;
 }
@@ -80,7 +94,6 @@ error_code input_points_num(int &num, FILE *f);
 
 error_code input_points_array(points_type &points, int num, FILE *f);
 
-error_code alloc_points_array(points_type &points, int num);
 
 error_code input_point(point_type &point, FILE *f);
 

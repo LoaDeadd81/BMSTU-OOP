@@ -8,6 +8,8 @@ error_code draw_edge(const edge_type &edge, const points_type &points, QGraphics
 
 error_code draw_line(const point_type &start, const point_type &end, QGraphicsScene *scene);
 
+error_code alloc_edges_array(edges_type &edges, int num);
+
 edges_type init_edges()
 {
     return {nullptr, 0};
@@ -57,11 +59,24 @@ error_code draw_edges(const edges_type &edges, const points_type &points, QGraph
     return rc;
 }
 
+error_code deep_copy(edges_type &dst, const edges_type &src)
+{
+    error_code rc = SUCCESS;
+    if(src.array == nullptr)
+        rc = ACCESS_ERROR;
+    else
+    {
+        rc = alloc_edges_array(dst, src.len);
+        if(rc == SUCCESS)
+            for (int i = 0; i < src.len; i++)
+                dst.array[i] = src.array[i];
+    }
+    return rc;
+}
+
 error_code input_edges_num(int &num, FILE *f);
 
 error_code input_edges_array(edges_type &edges, int num, FILE *f);
-
-error_code alloc_edges_array(edges_type &edges, int num);
 
 error_code input_edge(edge_type &edge, FILE *f);
 

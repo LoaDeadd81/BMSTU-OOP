@@ -4,7 +4,6 @@ error_code input_tmp_model(frame_model &model, FILE *f);
 
 error_code check_tmp_model(const frame_model &model);
 
-void free_model(frame_model &model);
 
 frame_model init_model()
 {
@@ -40,7 +39,7 @@ error_code input_model(frame_model &model, const char *filename)
     return rc;
 }
 
-error_code draw_model(frame_model &model, QGraphicsScene *scene)
+error_code draw_model(const frame_model &model, QGraphicsScene *scene)
 {
     error_code rc = SUCCESS;
     if(scene == nullptr)
@@ -55,25 +54,59 @@ error_code draw_model(frame_model &model, QGraphicsScene *scene)
 
 error_code move_model(frame_model &model, const transform_data &move_data)
 {
-    error_code rc = move_points(model.points, move_data);
+    error_code rc = SUCCESS;
+    frame_model tmp_model = init_model();
+    rc = deep_copy(tmp_model, model);
+    if(rc == SUCCESS)
+    {
+        rc = move_points(tmp_model.points, move_data);
+        if(rc == SUCCESS)
+        {
+            free_model(model);
+            model = tmp_model;
+        }
+        else
+            free_model(tmp_model);
+    }
     return rc;
 }
 
 error_code scale_model(frame_model &model, const point_type &center, const transform_data &scale_data)
 {
-    error_code rc = scale_points(model.points, center, scale_data);
+    error_code rc = SUCCESS;
+    frame_model tmp_model = init_model();
+    rc = deep_copy(tmp_model, model);
+    if(rc == SUCCESS)
+    {
+        rc = scale_points(tmp_model.points, center, scale_data);
+        if(rc == SUCCESS)
+        {
+            free_model(model);
+            model = tmp_model;
+        }
+        else
+            free_model(tmp_model);
+    }
     return rc;
 }
 
 error_code rotate_model(frame_model &model, const point_type &center, const transform_data &rotate_data)
 {
-    error_code rc = rotate_points(model.points, center, rotate_data);
+    error_code rc = SUCCESS;
+    frame_model tmp_model = init_model();
+    rc = deep_copy(tmp_model, model);
+    if(rc == SUCCESS)
+    {
+        rc = rotate_points(tmp_model.points, center, rotate_data);
+        if(rc == SUCCESS)
+        {
+            free_model(model);
+            model = tmp_model;
+        }
+        else
+            free_model(tmp_model);
+    }
     return rc;
-}
-
-void del_model(frame_model &model)
-{
-    free_model(model);
 }
 
 //out in
@@ -100,6 +133,20 @@ error_code check_tmp_model(const frame_model &model)
     error_code rc = check_edges(model.edges, len(model.points));
     return rc;
 }
+
+error_code deep_copy(frame_model &dst, const frame_model &src)
+{
+    error_code rc = deep_copy(dst.points, src.points);
+    if(rc == SUCCESS)
+    {
+        rc = deep_copy(dst.edges, src.edges);
+        if(rc != SUCCESS)
+            free_points(dst.points);
+    }
+    return rc;
+}
+
+
 
 void free_model(frame_model &model)
 {

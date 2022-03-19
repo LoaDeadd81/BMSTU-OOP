@@ -36,4 +36,6 @@ error_code scale_points(points_type &points, const point_type &center, const tra
 
 error_code rotate_points(points_type &points, const point_type &center, const transform_data &data);
 
+error_code deep_copy(points_type &dst, const points_type &src);
+
 #endif 

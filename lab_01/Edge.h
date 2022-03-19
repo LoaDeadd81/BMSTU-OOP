@@ -28,4 +28,6 @@ error_code input_edges(edges_type &edges, FILE *f);
 
 error_code draw_edges(const edges_type &edges, const points_type &points, QGraphicsScene *scene);
 
+error_code deep_copy(edges_type &dst, const edges_type &src);
+
 #endif 
