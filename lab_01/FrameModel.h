@@ -15,7 +15,11 @@ typedef struct frame_model
 
 frame_model init_model();
 
+void free_model(frame_model &model);
+
 error_code input_model(frame_model &model, const char *filename);
+
+error_code check_model(const frame_model &model);
 
 error_code draw_model(QGraphicsScene *scene, const frame_model &model);
 
@@ -27,6 +31,6 @@ error_code rotate_model(frame_model &model, const point_type &center, const tran
 
 error_code deep_copy(frame_model &dst, const frame_model &src);
 
-void free_model(frame_model &model);
+void asigne(frame_model &dst, const frame_model &src);
 
 #endif 

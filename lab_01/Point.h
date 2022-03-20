@@ -38,4 +38,6 @@ error_code rotate_points(points_type &points, const point_type &center, const tr
 
 error_code deep_copy(points_type &dst, const points_type &src);
 
+void asigne(points_type &dst, const points_type &src);
+
 #endif 

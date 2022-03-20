@@ -1,9 +1,10 @@
 #include "Point.h"
 
-error_code input_tmp_points(points_type &points, FILE *f);
-
 error_code alloc_points_array(points_type &points, int num);
 
+error_code input_points_num(int &num, FILE *f);
+
+error_code input_point(point_type &point, FILE *f);
 
 void move_point(point_type &point, const transform_data &data);
 
@@ -33,12 +34,18 @@ error_code input_points(points_type &points, FILE *f)
         rc = ACCESS_ERROR;
     else
     {
-        points_type tmp_points = init_points();
-        rc = input_tmp_points(tmp_points, f);
+        int num = 0;
+        rc = input_points_num(num, f);
         if (rc == SUCCESS)
         {
-            free_points(points);
-            points = tmp_points;
+            rc = alloc_points_array(points, num);
+            if (rc == SUCCESS)
+            {
+                for (int i = 0; rc == SUCCESS && i < num; i++)
+                    rc = input_point(points.array[i], f);
+                if (rc != SUCCESS)
+                    free_points(points);
+            }
         }
     }
     return rc;
@@ -92,33 +99,10 @@ error_code deep_copy(points_type &dst, const points_type &src)
     return rc;
 }
 
-error_code input_points_num(int &num, FILE *f);
-
-error_code input_points_array(points_type &points, int num, FILE *f);
-
-
-error_code input_point(point_type &point, FILE *f);
-
-error_code input_tmp_points(points_type &points, FILE *f)
+void asigne(points_type &dst, const points_type &src)
 {
-    error_code rc = SUCCESS;
-    int num = 0;
-    if (f == nullptr)
-        rc = ACCESS_ERROR;
-    else
-        rc = input_points_num(num, f);
-    if (rc == SUCCESS)
-    {
-        rc = alloc_points_array(points, num);
-        if (rc == SUCCESS)
-        {
-            for (int i = 0; rc == SUCCESS && i < num; i++)
-                rc = input_point(points.array[i], f);
-            if (rc != SUCCESS)
-                free_points(points);
-        }
-    }
-    return rc;
+    free_points(dst);
+    dst = src;
 }
 
 error_code input_points_num(int &num, FILE *f)

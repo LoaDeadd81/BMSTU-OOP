@@ -1,7 +1,5 @@
 #include "Edge.h"
 
-error_code input_tmp_edges(edges_type &edges, FILE *f);
-
 error_code check_edge(const edge_type &edge, int points_count);
 
 error_code draw_edge(QGraphicsScene *scene, const edge_type &edge, const points_type &points);
@@ -9,6 +7,10 @@ error_code draw_edge(QGraphicsScene *scene, const edge_type &edge, const points_
 error_code draw_line(QGraphicsScene *scene, const point_type &start, const point_type &end);
 
 error_code alloc_edges_array(edges_type &edges, int num);
+
+error_code input_edges_num(int &num, FILE *f);
+
+error_code input_edge(edge_type &edge, FILE *f);
 
 edges_type init_edges()
 {
@@ -26,10 +28,8 @@ error_code check_edges(const edges_type &edges, int points_count)
     if (edges.array == nullptr)
         rc = ACCESS_ERROR;
     else
-    {
         for (int i = 0; rc == SUCCESS && i < edges.len; i++)
             rc = check_edge(edges.array[i], points_count);
-    }
     return rc;
 }
 
@@ -40,12 +40,18 @@ error_code input_edges(edges_type &edges, FILE *f)
         rc = ACCESS_ERROR;
     else
     {
-        edges_type tmp_edges = init_edges();
-        rc = input_tmp_edges(tmp_edges, f);
+        int num = 0;
+        rc = input_edges_num(num, f);
         if (rc == SUCCESS)
         {
-            free_edges(edges);
-            edges = tmp_edges;
+            rc = alloc_edges_array(edges, num);
+            if (rc == SUCCESS)
+            {
+                for (int i = 0; rc == SUCCESS && i < num; i++)
+                    rc = input_edge(edges.array[i], f);
+                if (rc != SUCCESS)
+                    free_edges(edges);
+            }
         }
     }
     return rc;
@@ -77,33 +83,6 @@ error_code deep_copy(edges_type &dst, const edges_type &src)
     return rc;
 }
 
-error_code input_edges_num(int &num, FILE *f);
-
-//error_code input_edges_array(edges_type &edges, int num, FILE *f);
-
-error_code input_edge(edge_type &edge, FILE *f);
-
-error_code input_tmp_edges(edges_type &edges, FILE *f)
-{
-    int num = 0;
-    error_code rc = SUCCESS;
-    if (f == nullptr)
-        rc = ACCESS_ERROR;
-    else
-        rc = input_edges_num(num, f);
-    if (rc == SUCCESS)
-    {
-        rc = alloc_edges_array(edges, num);
-        if (rc == SUCCESS)
-        {
-            for (int i = 0; rc == SUCCESS && i < num; i++)
-                rc = input_edge(edges.array[i], f);
-            if (rc != SUCCESS)
-                free_edges(edges);
-        }
-    }
-    return rc;
-}
 
 error_code input_edges_num(int &num, FILE *f)
 {
@@ -151,7 +130,7 @@ error_code check_edge(const edge_type &edge, int points_count)
     return rc;
 }
 
-error_code draw_edge( QGraphicsScene *scene, const edge_type &edge, const points_type &points)
+error_code draw_edge(QGraphicsScene *scene, const edge_type &edge, const points_type &points)
 {
     error_code rc = SUCCESS;
     if (points.array == nullptr || scene == nullptr)
