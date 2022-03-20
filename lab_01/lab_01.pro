@@ -9,27 +9,27 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Edge.cpp \
+    ErrorType.cpp \
+    FrameModel.cpp \
     draw.cpp \
-    erorrs.cpp \
-    line.cpp \
+    io.cpp \
     main.cpp \
     mainwindow.cpp \
-    model.cpp \
-    model_io.cpp \
     point.cpp \
     request.cpp \
-    transformation.cpp
+    transform.cpp \
 
 HEADERS += \
+    Edge.h \
+    ErrorType.h \
+    FrameModel.h \
     draw.h \
-    erorrs.h \
-    line.h \
+    io.h \
     mainwindow.h \
-    model.h \
-    model_io.h \
     point.h \
     request.h \
-    transformation.h
+    transform.h \
 
 FORMS += \
     mainwindow.ui
@@ -40,5 +40,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    cube.txt \
     input.txt \
     lab_01.pro.user

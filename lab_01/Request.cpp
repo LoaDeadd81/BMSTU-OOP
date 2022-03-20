@@ -10,7 +10,7 @@ error_code do_request(request &action)
             rc = input(figure, action.read);
             break;
         case DRAW:
-            rc = draw(figure, action.draw);
+            rc = draw( action.draw, figure);
             break;
         case MOVE:
             rc = move(figure, action.move);

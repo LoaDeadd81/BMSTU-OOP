@@ -1,8 +1,8 @@
 #include "draw.h"
 
-error_code draw(frame_model &model, draw_request &request)
+error_code draw( draw_request &request, const frame_model &model)
 {
-    return draw_model(model, request.scene);
+    return draw_model(request.scene, model);
 }
 
 

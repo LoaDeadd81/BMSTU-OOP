@@ -26,7 +26,6 @@ int len(const points_type &points)
     return points.len;
 }
 
-//out in
 error_code input_points(points_type &points, FILE *f)
 {
     error_code rc = SUCCESS;
@@ -37,7 +36,10 @@ error_code input_points(points_type &points, FILE *f)
         points_type tmp_points = init_points();
         rc = input_tmp_points(tmp_points, f);
         if (rc == SUCCESS)
+        {
+            free_points(points);
             points = tmp_points;
+        }
     }
     return rc;
 }
@@ -78,12 +80,12 @@ error_code rotate_points(points_type &points, const point_type &center, const tr
 error_code deep_copy(points_type &dst, const points_type &src)
 {
     error_code rc = SUCCESS;
-    if(src.array == nullptr)
+    if (src.array == nullptr)
         rc = ACCESS_ERROR;
     else
     {
         rc = alloc_points_array(dst, src.len);
-        if(rc == SUCCESS)
+        if (rc == SUCCESS)
             for (int i = 0; i < src.len; i++)
                 dst.array[i] = src.array[i];
     }
@@ -97,12 +99,11 @@ error_code input_points_array(points_type &points, int num, FILE *f);
 
 error_code input_point(point_type &point, FILE *f);
 
-//out in
 error_code input_tmp_points(points_type &points, FILE *f)
 {
     error_code rc = SUCCESS;
     int num = 0;
-    if(f == nullptr)
+    if (f == nullptr)
         rc = ACCESS_ERROR;
     else
         rc = input_points_num(num, f);
@@ -111,7 +112,8 @@ error_code input_tmp_points(points_type &points, FILE *f)
         rc = alloc_points_array(points, num);
         if (rc == SUCCESS)
         {
-            rc = input_points_array(points, num, f);
+            for (int i = 0; rc == SUCCESS && i < num; i++)
+                rc = input_point(points.array[i], f);
             if (rc != SUCCESS)
                 free_points(points);
         }
@@ -122,30 +124,17 @@ error_code input_tmp_points(points_type &points, FILE *f)
 error_code input_points_num(int &num, FILE *f)
 {
     error_code rc = SUCCESS;
-    if(f == nullptr)
+    if (f == nullptr)
         rc = ACCESS_ERROR;
     else if (fscanf(f, "%d", &num) != 1 || num < 1)
         rc = BAD_MODEL_DATA;
     return rc;
 }
 
-error_code input_points_array(points_type &points, int num, FILE *f)
-{
-    error_code rc = SUCCESS;
-    if (points.array == nullptr || f == nullptr || num < 1)
-        rc = ACCESS_ERROR;
-    else
-    {
-        for (int i = 0; i < rc == SUCCESS && i < num; i++)
-            rc = input_point(points.array[i], f);
-    }
-    return rc;
-}
-
 error_code alloc_points_array(points_type &points, int num)
 {
     error_code rc = SUCCESS;
-    if(num < 1)
+    if (num < 1)
         rc = MEM_ERROR;
     else
     {
@@ -161,7 +150,7 @@ error_code alloc_points_array(points_type &points, int num)
 error_code input_point(point_type &point, FILE *f)
 {
     error_code rc = SUCCESS;
-    if(f == nullptr)
+    if (f == nullptr)
         rc = ACCESS_ERROR;
     else if (fscanf(f, "%lf %lf %lf", &point.x, &point.y, &point.z) != 3)
         rc = BAD_MODEL_DATA;

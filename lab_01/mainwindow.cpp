@@ -117,7 +117,7 @@ error_code MainWindow::do_move_request()
         request main_request = {MOVE};
         main_request.move = {dx, dy, dz};
 
-        error_code rc = do_request(main_request);
+        rc = do_request(main_request);
     }
     return rc;
 }
@@ -137,7 +137,7 @@ error_code MainWindow::do_scale_request()
     else
     {
         request main_request = {SCALE};
-        main_request.scale = {center, kx, ky, kz};
+        main_request.scale = {center, {kx, ky, kz}};
 
         rc = do_request(main_request);
     }
@@ -159,7 +159,7 @@ error_code MainWindow::do_rotate_request()
     else
     {
         request main_request = {ROTATE};
-        main_request.rotate = {center, cx, cy, cz};
+        main_request.rotate = {center, {cx, cy, cz}};
 
         rc = do_request(main_request);
     }
@@ -176,6 +176,8 @@ error_code MainWindow::get_center(point_type &center)
     inp_status += checked_read(ui->zLineEdit, z);
     if (inp_status > 0)
         rc = DATA_ERROR;
+    else
+        center = {x, y, z};
     return rc;
 }
 

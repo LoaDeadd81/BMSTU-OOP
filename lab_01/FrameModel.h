@@ -17,7 +17,7 @@ frame_model init_model();
 
 error_code input_model(frame_model &model, const char *filename);
 
-error_code draw_model(const frame_model &model, QGraphicsScene *scene);
+error_code draw_model(QGraphicsScene *scene, const frame_model &model);
 
 error_code move_model(frame_model &model, const transform_data &move_data);
 

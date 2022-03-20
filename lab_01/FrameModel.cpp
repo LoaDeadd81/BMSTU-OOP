@@ -12,7 +12,7 @@ frame_model init_model()
     return {points, edges};
 }
 
-//var in
+//var in model
 error_code input_model(frame_model &model, const char *filename)
 {
     frame_model tmp_model = init_model();
@@ -39,7 +39,7 @@ error_code input_model(frame_model &model, const char *filename)
     return rc;
 }
 
-error_code draw_model(const frame_model &model, QGraphicsScene *scene)
+error_code draw_model(QGraphicsScene *scene, const frame_model &model)
 {
     error_code rc = SUCCESS;
     if(scene == nullptr)
@@ -47,7 +47,7 @@ error_code draw_model(const frame_model &model, QGraphicsScene *scene)
     else
     {
         scene->clear();
-        rc = draw_edges(model.edges, model.points, scene);
+        rc = draw_edges(scene, model.edges, model.points);
     }
     return rc;
 }
@@ -109,7 +109,6 @@ error_code rotate_model(frame_model &model, const point_type &center, const tran
     return rc;
 }
 
-//out in
 error_code input_tmp_model(frame_model &model, FILE *f)
 {
     error_code rc = SUCCESS;
