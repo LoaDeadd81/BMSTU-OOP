@@ -96,7 +96,7 @@ error_code MainWindow::do_read_request()
 error_code MainWindow::do_draw_request()
 {
     request main_request = {DRAW};
-    main_request.draw.scene = scene;
+    main_request.draw.scene = {scene};
 
     error_code rc = do_request(main_request);
     return rc;

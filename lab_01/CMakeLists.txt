@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "C:\\Qt\\6.2.3\\mingw_64\\lib\\cmake\\")
+set(CMAKE_PREFIX_PATH "C:\\Qt\\6.2.4\\mingw_64\\lib\\cmake\\")
 
 find_package(Qt6 COMPONENTS
         Core
@@ -21,7 +21,23 @@ add_executable(lab_01
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        Request.cpp Request.h ErrorType.cpp ErrorType.h FrameModel.cpp FrameModel.h Edge.cpp Edge.h Point.cpp Point.h draw.cpp draw.h io.cpp io.h transform.cpp transform.h)
+        Request.cpp
+        Request.h
+        ErrorType.cpp
+        ErrorType.h
+        FrameModel.cpp
+        FrameModel.h
+        Edge.cpp
+        Edge.h
+        Point.cpp
+        Point.h
+        draw.cpp
+        draw.h
+        io.cpp
+        io.h
+        transform.cpp
+        transform.h
+        LibScene.cpp LibScene.h)
 
 target_link_libraries(lab_01
         Qt::Core

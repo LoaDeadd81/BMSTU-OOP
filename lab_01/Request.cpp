@@ -2,27 +2,27 @@
 
 error_code do_request(request &action)
 {
-    static frame_model figure = init_model();
+    static frame_model model = init_model();
     error_code rc = SUCCESS;
     switch (action.type)
     {
         case INPUT:
-            rc = input(figure, action.read);
+            rc = input(model, action.read);
             break;
         case DRAW:
-            rc = draw( action.draw, figure);
+            rc = draw( action.draw, model);
             break;
         case MOVE:
-            rc = move(figure, action.move);
+            rc = move(model, action.move);
             break;
         case SCALE:
-            rc = scale(figure, action.scale);
+            rc = scale(model, action.scale);
             break;
         case ROTATE:
-            rc = rotate(figure, action.rotate);
+            rc = rotate(model, action.rotate);
             break;
         case DEL:
-            free_model(figure);
+            free_model(model);
             break;
         default:
             rc = REQUEST_ERROR;

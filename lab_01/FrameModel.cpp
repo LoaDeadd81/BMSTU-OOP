@@ -27,15 +27,16 @@ error_code input_model(frame_model &model, const char *filename)
     return rc;
 }
 
-error_code draw_model(QGraphicsScene *scene, const frame_model &model)
+error_code draw_model(lib_scene &scene, const frame_model &model)
 {
     error_code rc = SUCCESS;
-    if (scene == nullptr)
+    if (!is_exist(scene))
         rc = ACCESS_ERROR;
     else
     {
-        scene->clear();
-        rc = draw_edges(scene, model.edges, model.points);
+        rc = clean(scene);
+        if(rc == SUCCESS)
+            rc = draw_edges(scene, model.edges, model.points);
     }
     return rc;
 }

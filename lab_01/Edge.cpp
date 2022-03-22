@@ -2,15 +2,17 @@
 
 error_code check_edge(const edge_type &edge, int points_count);
 
-error_code draw_edge(QGraphicsScene *scene, const edge_type &edge, const points_type &points);
+error_code draw_edge(lib_scene &scene, const edge_type &edge, const points_type &points);
 
-error_code draw_line(QGraphicsScene *scene, const point_type &start, const point_type &end);
+error_code draw_line(lib_scene &scene, const point_type &start, const point_type &end);
 
 error_code alloc_edges_array(edges_type &edges, int num);
 
 error_code input_edges_num(int &num, FILE *f);
 
 error_code input_edge(edge_type &edge, FILE *f);
+
+error_code input_edges_arr(edges_type &edges, FILE *f);
 
 edges_type init_edges()
 {
@@ -47,8 +49,8 @@ error_code input_edges(edges_type &edges, FILE *f)
             rc = alloc_edges_array(edges, num);
             if (rc == SUCCESS)
             {
-                for (int i = 0; rc == SUCCESS && i < num; i++)
-                    rc = input_edge(edges.array[i], f);
+                //todo смещение уровня абстракции
+                rc = input_edges_arr(edges, f);
                 if (rc != SUCCESS)
                     free_edges(edges);
             }
@@ -57,10 +59,10 @@ error_code input_edges(edges_type &edges, FILE *f)
     return rc;
 }
 
-error_code draw_edges(QGraphicsScene *scene, const edges_type &edges, const points_type &points)
+error_code draw_edges(lib_scene & scene, const edges_type &edges, const points_type &points)
 {
     error_code rc = SUCCESS;
-    if (edges.array == nullptr || points.array == nullptr || scene == nullptr)
+    if (edges.array == nullptr || points.array == nullptr || !is_exist(scene))
         rc = ACCESS_ERROR;
     else
         for (int i = 0; rc == SUCCESS && i < edges.len; i++)
@@ -130,24 +132,34 @@ error_code check_edge(const edge_type &edge, int points_count)
     return rc;
 }
 
-error_code draw_edge(QGraphicsScene *scene, const edge_type &edge, const points_type &points)
+error_code draw_edge(lib_scene &scene, const edge_type &edge, const points_type &points)
 {
     error_code rc = SUCCESS;
-    if (points.array == nullptr || scene == nullptr)
+    if (points.array == nullptr || !is_exist(scene))
         rc = ACCESS_ERROR;
     else
         rc = draw_line(scene, points.array[edge.start_index], points.array[edge.end_index]);
     return rc;
 }
 
-error_code draw_line(QGraphicsScene *scene, const point_type &start, const point_type &end)
+error_code draw_line(lib_scene &scene, const point_type &start, const point_type &end)
 {
     error_code rc = SUCCESS;
-    if (scene == nullptr)
+    if (!is_exist(scene))
         rc = ACCESS_ERROR;
     else
-        scene->addLine(start.x, -start.y, end.x, -end.y);
+        rc = draw_line_lib(scene, start, end);
     return rc;
 }
 
+error_code input_edges_arr(edges_type &edges, FILE *f)
+{
+    error_code rc = SUCCESS;
+    if(f == nullptr)
+        rc = ACCESS_ERROR;
+    else
+        for (int i = 0; rc == SUCCESS && i < edges.len; i++)
+            rc = input_edge(edges.array[i], f);
+    return rc;
+}
 

@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "Edge.h"
 #include "ErrorType.h"
+#include "LibScene.h"
 
 #include <cstdio>
 
@@ -21,7 +22,7 @@ error_code input_model(frame_model &model, const char *filename);
 
 error_code check_model(const frame_model &model);
 
-error_code draw_model(QGraphicsScene *scene, const frame_model &model);
+error_code draw_model(lib_scene &scene, const frame_model &model);
 
 error_code move_model(frame_model &model, const transform_data &move_data);
 

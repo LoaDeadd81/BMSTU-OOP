@@ -14,15 +14,19 @@
 #include "ErrorType.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -39,11 +43,18 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     bool is_exist;
+
     error_code do_read_request();
+
     error_code do_draw_request();
+
     error_code do_move_request();
+
     error_code do_scale_request();
+
     error_code do_rotate_request();
+
     error_code get_center(point_type &center);
 };
+
 #endif

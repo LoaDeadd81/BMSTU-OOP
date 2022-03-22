@@ -3,6 +3,7 @@
 
 #include "ErrorType.h"
 #include "Point.h"
+#include "LibScene.h"
 
 #include <QGraphicsScene>
 #include <cstdio>
@@ -26,7 +27,7 @@ error_code check_edges(const edges_type &edges, int points_count);
 
 error_code input_edges(edges_type &edges, FILE *f);
 
-error_code draw_edges(QGraphicsScene *scene, const edges_type &edges, const points_type &points);
+error_code draw_edges(lib_scene &scene, const edges_type &edges, const points_type &points);
 
 error_code deep_copy(edges_type &dst, const edges_type &src);
 
