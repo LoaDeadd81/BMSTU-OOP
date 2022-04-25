@@ -137,7 +137,7 @@ error_code input_points_arr(points_type &points, FILE *f)
 {
     error_code rc = SUCCESS;
     if (f == nullptr)
-        rc == ACCESS_ERROR;
+        rc = ACCESS_ERROR;
     else
         for (int i = 0; rc == SUCCESS && i < points.len; i++)
             rc = input_point(points.array[i], f);
