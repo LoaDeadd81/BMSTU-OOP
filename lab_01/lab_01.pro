@@ -12,6 +12,7 @@ SOURCES += \
     Edge.cpp \
     ErrorType.cpp \
     FrameModel.cpp \
+    LibScene.cpp \
     draw.cpp \
     io.cpp \
     main.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     Edge.h \
     ErrorType.h \
     FrameModel.h \
+    LibScene.h \
     draw.h \
     io.h \
     mainwindow.h \
