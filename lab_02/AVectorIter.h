@@ -11,7 +11,7 @@
 //todo последовательность спецификаторов доступа
 //todo операторы в класс
 template<typename Type>
-class AVectorIter : public BaseVectorIter, public iterator<random_access_iterator_tag, Type>
+class AVectorIter : public BaseVectorIter, public iterator<bidirectional_iterator_tag, Type>
 {
 public:
     AVectorIter() = default;

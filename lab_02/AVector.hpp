@@ -91,6 +91,46 @@ AVector<Type>::AVector(initializer_list<Type> init_list) : BaseVector(init_list.
 }
 
 template<typename Type>
+AVector<Type>::AVector(const AVectorIter<Type> begin, const AVectorIter<Type> end)
+{
+    int len = 0;
+    for (auto i = begin; i < end; i++, ++len);
+    count = len;
+    alloc(len);
+    int j = 0;
+    for (auto i = begin; i < end; i++, j++) data[j] = *i;
+}
+
+template<typename Type>
+AVector<Type>::AVector(const AVectorIter<Type> begin, size_t size)
+{
+    count = size;
+    alloc(size);
+    auto j = begin;
+    for (size_t i = 0; i < size; i++, j++) data[i] = *j;
+}
+
+template<typename Type>
+AVector<Type>::AVector(const ConstAVectorIter<Type> begin, const ConstAVectorIter<Type> end)
+{
+    int len = 0;
+    for (auto i = begin; i < end; i++, ++len);
+    count = len;
+    alloc(len);
+    int j = 0;
+    for (auto i = begin; i < end; i++, j++) data[j] = *i;
+}
+
+template<typename Type>
+AVector<Type>::AVector(const ConstAVectorIter<Type> begin, size_t size)
+{
+    count = size;
+    alloc(size);
+    auto j = begin;
+    for (size_t i = 0; i < size; i++, j++) data[i] = *j;
+}
+
+template<typename Type>
 size_t AVector<Type>::size() const
 {
     return count;

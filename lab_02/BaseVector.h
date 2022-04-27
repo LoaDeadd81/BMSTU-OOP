@@ -8,7 +8,7 @@ class BaseVector
 {
 public:
     BaseVector() = default;
-    explicit BaseVector(size_t size = 0) : count(size) {};
+    explicit BaseVector(size_t size) : count(size) {};
 
     virtual size_t size() const = 0;
     virtual bool empty() const = 0;

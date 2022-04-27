@@ -146,7 +146,7 @@ AVectorIter<Type> AVectorIter<Type>::operator--(int)
 template<typename Type>
 bool AVectorIter<Type>::operator==(const AVectorIter<Type> &iter) const
 {
-    return index == iter.index;
+    return this->ptr.lock() == iter.ptr.lock() && index == iter.index;
 }
 
 template<typename Type>
@@ -158,13 +158,13 @@ bool AVectorIter<Type>::operator!=(const AVectorIter<Type> &iter) const
 template<typename Type>
 bool AVectorIter<Type>::operator<(const AVectorIter<Type> &iter) const
 {
-    return index < iter.index;
+    return this->ptr.lock() == iter.ptr.lock() && index < iter.index;
 }
 
 template<typename Type>
 bool AVectorIter<Type>::operator>(const AVectorIter<Type> &iter) const
 {
-    return index > iter.index;
+    return this->ptr.lock() == iter.ptr.lock() && index > iter.index;
 }
 
 template<typename Type>

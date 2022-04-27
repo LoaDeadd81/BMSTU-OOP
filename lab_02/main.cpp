@@ -66,6 +66,14 @@ void check_constructors()
     cout << "by init list" << endl;
     AVector<int> c6 = {1, 2, 3, 4, 5};
     cout << c6 << endl << endl;
+
+    cout << "by itearators" << endl;
+    AVector<int> c7(c6.begin(), c6.end());
+    cout << c7 << endl << endl;
+
+    cout << "by itearator and size" << endl;
+    AVector<int> c8(c6.begin(), c6.size());
+    cout << c8 << endl << endl;
 }
 
 void check_methods()

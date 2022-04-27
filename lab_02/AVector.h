@@ -37,6 +37,14 @@ public:
 
     AVector(initializer_list<Type> init_list);
 
+    AVector(const AVectorIter<Type> begin, const AVectorIter<Type> end);
+
+    AVector(const AVectorIter<Type> begin, size_t size);
+
+    AVector(const ConstAVectorIter<Type> begin, const ConstAVectorIter<Type> end);
+
+    AVector(const ConstAVectorIter<Type> begin, size_t size);
+
     virtual size_t size() const override;
 
     virtual bool empty() const override;
@@ -156,7 +164,5 @@ istream &operator>>(istream &is, const AVector<Type> &vec) ;
 
 template<typename Type>
 ostream &operator<<(ostream &os, const AVector<Type> &vec);
-
-
 
 #endif
