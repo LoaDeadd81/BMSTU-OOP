@@ -51,6 +51,19 @@ void AVector<Type>::realloc(size_t size)
 }
 
 template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::assignment(const AVector<S> &vec)
+{
+    if (count != vec.size())
+    {
+        realloc(vec.size());
+        count = vec.size();
+    }
+    for (int i = 0; i < count; i++) data[i] = vec[i];
+    return *this;
+}
+
+template<typename Type>
 AVector<Type>::AVector(size_t size) : BaseVector(size)
 {
     alloc(size);
@@ -205,138 +218,114 @@ AVector<Type> &AVector<Type>::operator=(AVector<Type> &&vec) noexcept
 
 template<typename Type>
 template<typename S>
-AVector<Type> &AVector<Type>::operator=(const AVector<S> &vec)
-{
-    if (count != vec.size())
-    {
-        realloc(vec.size());
-        count = vec.size();
-    }
-    for (int i = 0; i < count; i++) data[i] = vec[i];
-    return *this;
-}
-
-//template<typename Type>
-//template<typename S>
-//AVector<Type> &AVector<Type>::operator=(AVector<S> &&vec) noexcept
-//{
-//    count = vec.size();
-//    data.reset();
-//    data = vec.data;
-//    vec.data.reset();
-//    return *this;
-//}
-
-template<typename Type>
-template<typename S>
 AVector<Type> &AVector<Type>::operator+=(const AVector<S> &vec)
 {
-    return *this = *this + vec;
+    return this->assignment(*this + vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::add(const AVector<S> &vec)
 {
-    return *this = *this + vec;
+    return this->assignment(*this + vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator+=(const S &val)
 {
-    return *this = *this + val;
+    return this->assignment(*this + val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::add(const S &val)
 {
-    return *this = *this + val;
+    return this->assignment(*this + val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator-=(const AVector<S> &vec)
 {
-    return *this = *this - vec;
+    return this->assignment(*this - vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::sub(const AVector<S> &vec)
 {
-    return *this = *this - vec;
+    return this->assignment(*this - vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator-=(const S &val)
 {
-    return *this = *this - val;
+    return this->assignment(*this - val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::sub(const S &val)
 {
-    return *this = *this - val;
+    return this->assignment(*this - val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator*=(const S &val)
 {
-    return *this = *this * val;
+    return this->assignment(*this * val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::mult(const S &val)
 {
-    return *this = *this * val;
+    return this->assignment(*this * val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator*=(const AVector<S> &vec)
 {
-    return *this = *this * vec;
+    return this->assignment(*this * vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::mult(const AVector<S> &vec)
 {
-    return *this = *this * vec;
+    return this->assignment(*this * vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator/=(const S &val)
 {
-    return *this = *this / val;
+    return this->assignment(*this / val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::div(const S &val)
 {
-    return *this = *this / val;
+    return this->assignment(*this / val);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::operator/=(const AVector<S> &vec)
 {
-    return *this = *this / vec;
+    return this->assignment(*this / vec);
 }
 
 template<typename Type>
 template<typename S>
 AVector<Type> &AVector<Type>::div(const AVector<S> &vec)
 {
-    return *this = *this / vec;
+    return this->assignment(*this / vec);
 }
 
 template<typename Type>
