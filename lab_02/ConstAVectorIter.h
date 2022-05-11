@@ -9,7 +9,6 @@
 #include "AVector.hpp"
 
 //todo последовательность спецификаторов доступа
-//todo операторы в класс
 template<typename Type>
 class ConstAVectorIter : public BaseVectorIter, public iterator<bidirectional_iterator_tag, Type>
 {
@@ -22,13 +21,10 @@ public:
 
     const Type* operator->() const;
     const Type& operator*() const;
-    explicit operator  bool() const;
+    operator  bool() const;
 
+    //todo операторы члены класса
     ConstAVectorIter<Type> &operator=(const ConstAVectorIter<Type> &iter);
-    ConstAVectorIter<Type> &operator+=(int i);
-    ConstAVectorIter<Type> &operator-=(int i);
-
-    ConstAVectorIter<Type> operator-(int i);
 
     ConstAVectorIter<Type> &operator++();
     ConstAVectorIter<Type> operator++(int);
@@ -38,22 +34,11 @@ public:
 
     bool operator==(const ConstAVectorIter<Type> &iter) const;
     bool operator!=(const ConstAVectorIter<Type> &iter) const;
-
-    bool operator<(const ConstAVectorIter<Type> &iter) const;
-    bool operator>(const ConstAVectorIter<Type> &iter) const;
-
-    bool operator<=(const ConstAVectorIter<Type> &iter) const;
-    bool operator>=(const ConstAVectorIter<Type> &iter) const;
 private:
     weak_ptr<Type[]> ptr;
 
     void check_data(string funk, int line) const;
     void check_index(string funk, int line) const;
 };
-
-template<typename Type>
-ConstAVectorIter<Type> operator+(const ConstAVectorIter<Type> &iter, int i);
-template<typename Type>
-ConstAVectorIter<Type> operator+(int i, const ConstAVectorIter<Type> &iter);
 
 #endif

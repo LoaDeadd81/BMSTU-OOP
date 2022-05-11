@@ -3,16 +3,16 @@
 
 #include <execution>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
-//todo добавить классов для ошибок
 //todo нормальные сообщения об ошибках
 class BaseError : public exception
 {
 public:
     BaseError()=default;
-    BaseError(string file, string function, int line, string message);
+    BaseError(string file, string function, int line, const char *time, string message);
     virtual const char *what() const noexcept override;
 
 protected:
@@ -23,35 +23,35 @@ class MemoryError : public BaseError
 {
 public:
     MemoryError()=default;
-    explicit MemoryError(string file, string function, int line, string message);
+    explicit MemoryError(string file, string function, int line, const char *time, string message);
 };
 
 class DimensionError : public BaseError
 {
 public:
     DimensionError()=default;
-    explicit DimensionError(string file, string function, int line, string message);
+    explicit DimensionError(string file, string function, int line, const char *time, string message);
 };
 
 class IndexError : public BaseError
 {
 public:
     IndexError()=default;
-    explicit IndexError(string file, string function, int line, string message);
+    explicit IndexError(string file, string function, int line, const char *time, string message);
 };
 
 class IterIndexError : public BaseError
 {
 public:
     IterIndexError()=default;
-    explicit IterIndexError(string file, string function, int line, string message);
+    explicit IterIndexError(string file, string function, int line, const char *time, string message);
 };
 
 class ZeroDivError : public BaseError
 {
 public:
     ZeroDivError()=default;
-    explicit ZeroDivError(string file, string function, int line, string message);
+    explicit ZeroDivError(string file, string function, int line, const char *time, string message);
 };
 
 

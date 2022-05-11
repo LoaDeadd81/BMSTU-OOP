@@ -19,20 +19,23 @@ void check_iteraotors();
 
 void check_const_iteraotors();
 
-ConstAVectorIter<double> f()
-{
-    AVector<double> a = {1, 2, 3, 5};
-    return a.cbegin();
-}
 
 int main()
 {
-    check_constructors();
-    check_methods();
-    check_operators();
-    check_extra_funcs();
-    check_iteraotors();
-    check_const_iteraotors();
+//    check_constructors();
+//    check_methods();
+//    check_operators();
+//    check_extra_funcs();
+//    check_iteraotors();
+//    check_const_iteraotors();
+
+    AVector a = {1, 2, 3};
+    AVector b = {complex(1), complex(2, 3), complex(4)};
+    AVector c = {3.4, 2.2, 3.3};
+    cout << a + c << endl;
+    cout << a + complex(1, 3) << endl;
+    a += c + c;
+    cout << a << endl;
     return 0;
 }
 
@@ -47,7 +50,7 @@ void check_constructors()
     cout << c1 << endl << endl;
 
     cout << "copy" << endl;
-    AVector<int> c2 = c1;
+    AVector<int> c2(c1);
     cout << c2 << endl << endl;
 
     cout << "by array" << endl;
@@ -182,14 +185,12 @@ void check_operators()
 
     cout << v1 << " + " << v2 << " = " << v1 + v2 << endl;
     cout << v1 << " + " << d << " = " << v1 + d << endl;
-    cout << d << " + " << v2 << " = " << d + v2 << endl;
 
     cout << v1 << " - " << v2 << " = " << v1 - v2 << endl;
     cout << v1 << " - " << d << " = " << v1 - d << endl;
 
     cout << v1 << " * " << v2 << " = " << v1 * v2 << endl;
     cout << v1 << " * " << d << " = " << v1 * d << endl;
-    cout << d << " * " << v2 << " = " << d * v2 << endl;
 
     cout << v1 << " / " << v2 << " = " << v1 / v2 << endl;
     cout << v1 << " / " << d << " = " << v1 / d << endl;
@@ -253,17 +254,13 @@ void check_iteraotors()
         cout << *it << " ";
     cout << endl;
     cout << "backward ";
-    for (auto it = v1.end() - 1; it >= v1.begin() ; it--)
+    for (auto it = --v1.end(); it != v1.begin() ; it--)
         cout << *it << " ";
     cout << endl;
-    auto it = v1.begin();
-    v1 += 3;
-    cout << "begin += 3 : " << *it << endl;
-    cout << "out of range :";
     try
     {
         auto it2 = v1.begin();
-        it2 += 6;
+        for (int i = 0; i < 6; i++) it2++;
         *it2;
     }
     catch (IterIndexError &e)
@@ -281,17 +278,14 @@ void check_const_iteraotors()
         cout << *it << " ";
     cout << endl;
     cout << "backward ";
-    for (auto it = v1.cend() - 1; it >= v1.cbegin() ; it--)
+    for (auto it = --v1.cend(); it != v1.cbegin() ; it--)
         cout << *it << " ";
     cout << endl;
-    auto it = v1.cbegin();
-    v1 += 3;
-    cout << "begin += 3 : " << *it << endl;
     cout << "out of range :";
     try
     {
         auto it2 = v1.cbegin();
-        it2 += 6;
+        for (int i = 0; i < 6; i++) it2++;
         *it2;
     }
     catch (IterIndexError &e)

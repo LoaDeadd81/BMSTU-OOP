@@ -15,27 +15,39 @@ double to_radians(double degree)
     return degree * (M_PI / 180.0);
 }
 
-template<typename Type>
-void check_size(string funk, int line, const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<typename Type, typename S>
+void check_size(string funk, int line, const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     if (vec1.size() != vec2.size())
-        throw DimensionError(__FILE__, funk, line,
+    {
+        time_t t_time = time(NULL);
+        throw DimensionError(__FILE__, funk, line, ctime(&t_time),
                              "The dimensions of the operands do not match");
+    }
 }
 
 template<typename Type>
 void AVector<Type>::alloc(size_t size)
 {
     data = shared_ptr<Type[]>(new Type[size]);
-    if (!data) throw MemoryError(__FILE__, __FUNCTION__, __LINE__, "Failed to allocate memory");
+    if (!data)
+    {
+        time_t t_time = time(NULL);
+        throw MemoryError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time), "Failed to allocate memory");
+    }
 }
 
 template<typename Type>
 void AVector<Type>::realloc(size_t size)
 {
+
     data.reset();
     data = shared_ptr<Type[]>(new Type[count]);
-    if (!data) throw MemoryError(__FILE__, __FUNCTION__, __LINE__, "Failed to allocate memory");
+    if (!data)
+    {
+        time_t t_time = time(NULL);
+        throw MemoryError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time), "Failed to allocate memory");
+    }
 }
 
 template<typename Type>
@@ -91,43 +103,25 @@ AVector<Type>::AVector(initializer_list<Type> init_list) : BaseVector(init_list.
 }
 
 template<typename Type>
-AVector<Type>::AVector(const AVectorIter<Type> begin, const AVectorIter<Type> end)
+template<typename Iter>
+AVector<Type>::AVector(const Iter begin, const Iter end)
 {
     int len = 0;
-    for (auto i = begin; i < end; i++, ++len);
+    for (auto i = begin; i != end; i++, ++len);
     count = len;
     alloc(len);
     int j = 0;
-    for (auto i = begin; i < end; i++, j++) data[j] = *i;
+    for (auto i = begin; i != end; i++, j++) data[j] = *i;
 }
 
 template<typename Type>
-AVector<Type>::AVector(const AVectorIter<Type> begin, size_t size)
+template<typename Iter>
+AVector<Type>::AVector(const Iter begin, size_t size)
 {
     count = size;
     alloc(size);
     auto j = begin;
-    for (size_t i = 0; i < size; i++, j++) data[i] = *j;
-}
-
-template<typename Type>
-AVector<Type>::AVector(const ConstAVectorIter<Type> begin, const ConstAVectorIter<Type> end)
-{
-    int len = 0;
-    for (auto i = begin; i < end; i++, ++len);
-    count = len;
-    alloc(len);
-    int j = 0;
-    for (auto i = begin; i < end; i++, j++) data[j] = *i;
-}
-
-template<typename Type>
-AVector<Type>::AVector(const ConstAVectorIter<Type> begin, size_t size)
-{
-    count = size;
-    alloc(size);
-    auto j = begin;
-    for (size_t i = 0; i < size; i++, j++) data[i] = *j;
+    for (size_t i = 0; i != size; i++, j++) data[i] = *j;
 }
 
 template<typename Type>
@@ -145,7 +139,11 @@ bool AVector<Type>::empty() const
 template<typename Type>
 Type &AVector<Type>::operator[](int i)
 {
-    if (i < 0 || i >= count) throw IndexError(__FILE__, __FUNCTION__, __LINE__, "Index out of range");
+    if (i < 0 || i >= count)
+    {
+        time_t t_time = time(NULL);
+        throw IndexError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time), "Index out of range");
+    }
     return data[i];
 }
 
@@ -159,7 +157,11 @@ template<typename Type>
 const Type &AVector<Type>::operator[](int i) const
 {
     if (i < 0) i += count;
-    if (i >= count) throw IndexError(__FILE__, __FUNCTION__, __LINE__, "Index out of range");
+    if (i >= count)
+    {
+        time_t t_time = time(NULL);
+        throw IndexError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time), "Index out of range");
+    }
     return data[i];
 }
 
@@ -202,120 +204,139 @@ AVector<Type> &AVector<Type>::operator=(AVector<Type> &&vec) noexcept
 }
 
 template<typename Type>
-AVector<Type> &AVector<Type>::operator+=(const AVector<Type> &vec)
+template<typename S>
+AVector<Type> &AVector<Type>::operator=(const AVector<S> &vec)
 {
-    if (count != vec.count)
-        throw DimensionError(__FILE__, __FUNCTION__, __LINE__, "The dimensions of the operands do not match");
-    for (int i = 0; i < count; i++) data[i] += vec.data[i];
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::add(const AVector<Type> &vec)
-{
-    return *this += vec;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator+=(const Type &val)
-{
-    for (int i = 0; i < count; i++) data[i] += val;
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::add(const Type &val)
-{
-    return *this += val;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator-=(const AVector<Type> &vec)
-{
-    if (count != vec.count)
-        throw DimensionError(__FILE__, __FUNCTION__, __LINE__, "The dimensions of the operands do not match");
-    for (int i = 0; i < count; i++) data[i] -= vec.data[i];
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::sub(const AVector<Type> &vec)
-{
-    return *this -= vec;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator-=(const Type &val)
-{
-    for (int i = 0; i < count; i++) data[i] -= val;
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::sub(const Type &val)
-{
-    return *this -= val;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator*=(const Type &val)
-{
-    for (int i = 0; i < count; i++) data[i] *= val;
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::mult(const Type &val)
-{
-    return *this *= val;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator*=(const AVector<Type> &vec)
-{
-    if (count != vec.count)
-        throw DimensionError(__FILE__, __FUNCTION__, __LINE__, "The dimensions of the operands do not match");
-    for (int i = 0; i < count; i++) data[i] *= vec.data[i];
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::mult(const AVector<Type> &vec)
-{
-    return *this *= vec;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator/=(const Type &val)
-{
-    if (val == Type(0)) throw ZeroDivError(__FILE__, __FUNCTION__, __LINE__, "Zero division");
-    for (int i = 0; i < count; i++) data[i] /= val;
-    return *this;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::div(const Type &val)
-{
-    return *this /= val;
-}
-
-template<typename Type>
-AVector<Type> &AVector<Type>::operator/=(const AVector<Type> &vec)
-{
-    if (count != vec.count)
-        throw DimensionError(__FILE__, __FUNCTION__, __LINE__, "The dimensions of the operands do not match");
-    for (int i = 0; i < count; i++)
+    if (count != vec.size())
     {
-        if (vec.data[i] == Type(0)) throw ZeroDivError(__FILE__, __FUNCTION__, __LINE__, "Zero division");
-        data[i] /= vec.data[i];
+        realloc(vec.size());
+        count = vec.size();
     }
+    for (int i = 0; i < count; i++) data[i] = vec[i];
     return *this;
 }
 
+//template<typename Type>
+//template<typename S>
+//AVector<Type> &AVector<Type>::operator=(AVector<S> &&vec) noexcept
+//{
+//    count = vec.size();
+//    data.reset();
+//    data = vec.data;
+//    vec.data.reset();
+//    return *this;
+//}
+
 template<typename Type>
-AVector<Type> &AVector<Type>::div(const AVector<Type> &vec)
+template<typename S>
+AVector<Type> &AVector<Type>::operator+=(const AVector<S> &vec)
 {
-    return *this /= vec;
+    return *this = *this + vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::add(const AVector<S> &vec)
+{
+    return *this = *this + vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator+=(const S &val)
+{
+    return *this = *this + val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::add(const S &val)
+{
+    return *this = *this + val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator-=(const AVector<S> &vec)
+{
+    return *this = *this - vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::sub(const AVector<S> &vec)
+{
+    return *this = *this - vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator-=(const S &val)
+{
+    return *this = *this - val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::sub(const S &val)
+{
+    return *this = *this - val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator*=(const S &val)
+{
+    return *this = *this * val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::mult(const S &val)
+{
+    return *this = *this * val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator*=(const AVector<S> &vec)
+{
+    return *this = *this * vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::mult(const AVector<S> &vec)
+{
+    return *this = *this * vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator/=(const S &val)
+{
+    return *this = *this / val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::div(const S &val)
+{
+    return *this = *this / val;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::operator/=(const AVector<S> &vec)
+{
+    return *this = *this / vec;
+}
+
+template<typename Type>
+template<typename S>
+AVector<Type> &AVector<Type>::div(const AVector<S> &vec)
+{
+    return *this = *this / vec;
 }
 
 template<typename Type>
@@ -326,125 +347,181 @@ AVector<Type> AVector<Type>::operator-() const
     return res;
 }
 
-template<typename Type>
-AVector<Type> AVector<Type>::operator+(const AVector<Type> &vec) const
+template<class Type>
+template<class S>
+decltype(auto) AVector<Type>::operator+(const AVector<S> &vec) const
 {
-    AVector<Type> res = *this;
-    res += vec;
+    check_size(__FUNCTION__, __LINE__, *this, vec);
+    AVector<decltype((*this)[0] + vec[0])> res(this->size());
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] + vec[i];
     return res;
 }
 
-template<typename Type>
-AVector<Type> AVector<Type>::add(const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<class Type>
+template<class S>
+decltype(auto) AVector<Type>::add(const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     return vec1 + vec2;
 }
 
-template<typename Type>
-AVector<Type> AVector<Type>::add(const AVector<Type> &vec, const Type &val)
+template<class Type>
+template<class S>
+decltype(auto) AVector<Type>::operator+(const S &val) const
+{
+    AVector<decltype((*this)[0] + val)> res(this->size());
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] + val;
+    return res;
+}
+
+template<class Type>
+template<class S>
+decltype(auto) AVector<Type>::add(const AVector<Type> &vec, const S &val)
 {
     return vec + val;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::operator-(const AVector<Type> &vec) const
+template<class S>
+decltype(auto) AVector<Type>::operator-(const AVector<S> &vec) const
 {
-    AVector<Type> res = *this;
-    res -= vec;
+    check_size(__FUNCTION__, __LINE__, *this, vec);
+    AVector<decltype((*this)[0] - vec[0])> res(this->size());
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] - vec[i];
     return res;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::sub(const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<class S>
+decltype(auto) AVector<Type>::sub(const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     return vec1 - vec2;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::operator-(const Type &val) const
+template<class S>
+decltype(auto) AVector<Type>::operator-(const S &val) const
 {
-    AVector<Type> res = *this;
-    res -= val;
+    AVector<decltype((*this)[0] * val)> res(this->size());
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] - val;
     return res;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::sub(const AVector<Type> &vec, const Type &val)
+template<class S>
+decltype(auto) AVector<Type>::sub(const AVector<Type> &vec, const S &val)
 {
     return vec - val;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::operator*(const AVector<Type> &vec) const
+template<class S>
+decltype(auto) AVector<Type>::operator*(const AVector<S> &vec) const
 {
-    AVector<Type> res = *this;
-    res *= vec;
+    check_size(__FUNCTION__, __LINE__, *this, vec);
+    AVector<decltype((*this)[0] * vec[0])> res(this->size());
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] * vec[i];
     return res;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::mult(const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<class S>
+decltype(auto) AVector<Type>::mult(const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     return vec1 * vec2;
 }
 
+template<class Type>
+template<class S>
+decltype(auto) AVector<Type>::operator*(const S &val) const
+{
+    AVector<decltype((*this)[0] * val)> res(*this);
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] * val;
+    return res;
+}
+
 template<typename Type>
-AVector<Type> AVector<Type>::mult(const AVector<Type> &vec, const Type &val)
+template<class S>
+decltype(auto) AVector<Type>::mult(const AVector<Type> &vec, const S &val)
 {
     return vec * val;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::operator/(const AVector<Type> &vec) const
+template<class S>
+decltype(auto) AVector<Type>::operator/(const AVector<S> &vec) const
 {
-    AVector<Type> res = *this;
-    res /= vec;
+    check_size(__FUNCTION__, __LINE__, *this, vec);
+    AVector<decltype((*this)[0] / vec[0])> res(this->size());
+    for (int i = 0; i < this->size(); i++)
+    {
+        if (vec[i] == S(0))
+        {
+            time_t t_time = time(NULL);
+            throw ZeroDivError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time), "Zero division");
+        }
+        res[i] = (*this)[i] / vec[i];
+    }
     return res;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::div(const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<class S>
+decltype(auto) AVector<Type>::div(const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     return vec1 / vec2;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::operator/(const Type &val) const
+template<class S>
+decltype(auto) AVector<Type>::operator/(const S &val) const
 {
-    AVector<Type> res = *this;
-    res /= val;
+    if (val == S(0))
+    {
+        time_t t_time = time(NULL);
+        throw ZeroDivError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time), "Zero division");
+    }
+    AVector<decltype((*this)[0] / val)> res(this->size());
+    for (int i = 0; i < this->size(); i++) res[i] = (*this)[i] / val;
     return res;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::div(const AVector<Type> &vec, const Type &val)
+template<class S>
+decltype(auto) AVector<Type>::div(const AVector<Type> &vec, const S &val)
 {
     return vec / val;
 }
 
 template<typename Type>
-Type AVector<Type>::operator^(const AVector<Type> &vec) const
+template<typename S>
+decltype(auto) AVector<Type>::operator^(const AVector<S> &vec) const
 {
     check_size(__FILE__, __LINE__, *this, vec);
-    Type res = Type(0);
+    decltype(data[0] * vec.data[0]) res = 0;
     for (int i = 0; i < this->size(); i++) res += data[i] * vec.data[i];
     return res;
 }
 
 template<typename Type>
-Type AVector<Type>::scalar_mult(const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<typename S>
+decltype(auto) AVector<Type>::scalar_mult(const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     return vec1 ^ vec2;
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::operator&(const AVector<Type> &vec) const
+template<typename S>
+decltype(auto) AVector<Type>::operator&(const AVector<S> &vec) const
 {
     check_size(__FILE__, __LINE__, *this, vec);
     if (count != 3)
-        throw DimensionError(__FILE__, __FUNCTION__, __LINE__, "For a vector product , vectors of dimension 3 are needed");
+    {
+        time_t t_time = time(NULL);
+        throw DimensionError(__FILE__, __FUNCTION__, __LINE__, ctime(&t_time),
+                             "For a vector product , vectors of dimension 3 are needed");
+    }
 
-    AVector<Type> res(3);
+    AVector<decltype(data[0] * vec.data[0])> res(3);
     res[0] = data[1] * vec.data[2] - data[2] * vec.data[1];
     res[1] = data[2] * vec.data[0] - data[0] * vec.data[2];
     res[2] = data[0] * vec.data[1] - data[1] * vec.data[0];
@@ -452,7 +529,8 @@ AVector<Type> AVector<Type>::operator&(const AVector<Type> &vec) const
 }
 
 template<typename Type>
-AVector<Type> AVector<Type>::vector_mult(const AVector<Type> &vec1, const AVector<Type> &vec2)
+template<typename S>
+decltype(auto) AVector<Type>::vector_mult(const AVector<Type> &vec1, const AVector<S> &vec2)
 {
     return vec1 & vec2;
 }
@@ -466,7 +544,7 @@ AVector<Type> &AVector<Type>::operator++()
 template<typename Type>
 AVector<Type> AVector<Type>::operator++(int)
 {
-    AVector<Type> res = *this;
+    AVector<Type> res(*this);
     *this += Type(1);
     return res;
 }
@@ -480,7 +558,7 @@ AVector<Type> &AVector<Type>::operator--()
 template<typename Type>
 AVector<Type> AVector<Type>::operator--(int)
 {
-    AVector<Type> res = *this;
+    AVector<Type> res(*this);
     *this -= Type(1);
     return res;
 }
@@ -590,7 +668,7 @@ AVector<Type> &AVector<Type>::norm()
 }
 
 template<typename Type>
-Type AVector<Type>::len() const
+size_t AVector<Type>::len() const
 {
     Type coef = 0;
     for (int i = 0; i < count; i++) coef += data[i] * data[i];
@@ -639,34 +717,6 @@ template<typename Type>
 AVectorIter<Type> AVector<Type>::end()
 {
     return AVectorIter<Type>(*this, count);
-}
-
-template<typename Type>
-AVector<Type> operator+(const Type &val, const AVector<Type> &vec)
-{
-    AVector<Type> res = vec;
-    return res += val;
-}
-
-template<typename Type>
-AVector<Type> operator+(const AVector<Type> &vec, const Type &val)
-{
-    AVector<Type> res = vec;
-    return res += val;
-}
-
-template<typename Type>
-AVector<Type> operator*(const Type &val, const AVector<Type> &vec)
-{
-    AVector<Type> res = vec;
-    return res *= val;
-}
-
-template<typename Type>
-AVector<Type> operator*(const AVector<Type> &vec, const Type &val)
-{
-    AVector<Type> res = vec;
-    return res *= val;
 }
 
 template<typename Type>

@@ -22,36 +22,23 @@ class AVector : public BaseVector
 public:
     //Конструкторы
     AVector() = default;
-
     explicit AVector(size_t size);
-
-    AVector(const AVector<Type> &vector);
-
+    explicit AVector(const AVector<Type> &vector);
     AVector(AVector<Type> &&vector) noexcept;
-
     AVector(const Type *arr, size_t size);
-
     AVector(size_t size, Type elem, ...);
-
     AVector(const Type &elem, size_t size);
-
     AVector(initializer_list<Type> init_list);
-
-    AVector(const AVectorIter<Type> begin, const AVectorIter<Type> end);
-
-    AVector(const AVectorIter<Type> begin, size_t size);
-
-    AVector(const ConstAVectorIter<Type> begin, const ConstAVectorIter<Type> end);
-
-    AVector(const ConstAVectorIter<Type> begin, size_t size);
+    template<typename Iter>
+    AVector(const Iter begin, const Iter end);
+    template<typename Iter>
+    AVector(const Iter begin, size_t size);
 
     virtual size_t size() const override;
-
     virtual bool empty() const override;
-
     virtual ~AVector() = default;
 
-    //todo [] для const векторов
+    //todo [] и at для const векторов
     Type &operator[](int i);
     Type &at(int i);
     const Type &operator[](int i) const;
@@ -59,54 +46,96 @@ public:
 
     Type &set(Type val, int i);
 
+    //todo операторы члены класса
     AVector<Type> &operator=(const AVector<Type> &vec);
     AVector<Type> &operator=(AVector<Type> &&vec) noexcept;
 
-    AVector<Type> &operator+=(const AVector<Type> &vec);
-    AVector<Type> &add(const AVector<Type> &vec);
-    AVector<Type> &operator+=(const Type &val);
-    AVector<Type> &add(const Type &val);
+    template<typename S>
+    AVector<Type> &operator=(const AVector<S> &vec);
 
-    AVector<Type> &operator-=(const AVector<Type> &vec);
-    AVector<Type> &sub(const AVector<Type> &vec);
-    AVector<Type> &operator-=(const Type &val);
-    AVector<Type> &sub(const Type &val);
+    template<typename S>
+    AVector<Type> &operator+=(const AVector<S> &vec);
+    template<typename S>
+    AVector<Type> &add(const AVector<S> &vec);
+    template<typename S>
+    AVector<Type> &operator+=(const S &val);
+    template<typename S>
+    AVector<Type> &add(const S &val);
 
-    AVector<Type> &operator*=(const Type &val);
-    AVector<Type> &mult(const Type &val);
-    AVector<Type> &operator*=(const AVector<Type> &vec);
-    AVector<Type> &mult(const AVector<Type> &vec);
+    template<typename S>
+    AVector<Type> &operator-=(const AVector<S> &vec);
+    template<typename S>
+    AVector<Type> &sub(const AVector<S> &vec);
+    template<typename S>
+    AVector<Type> &operator-=(const S &val);
+    template<typename S>
+    AVector<Type> &sub(const S &val);
 
-    AVector<Type> &operator/=(const Type &val);
-    AVector<Type> &div(const Type &val);
-    AVector<Type> &operator/=(const AVector<Type> &vec);
-    AVector<Type> &div(const AVector<Type> &vec);
+    template<typename S>
+    AVector<Type> &operator*=(const S &val);
+    template<typename S>
+    AVector<Type> &mult(const S &val);
+    template<typename S>
+    AVector<Type> &operator*=(const AVector<S> &vec);
+    template<typename S>
+    AVector<Type> &mult(const AVector<S> &vec);
+
+    template<typename S>
+    AVector<Type> &operator/=(const S &val);
+    template<typename S>
+    AVector<Type> &div(const S &val);
+    template<typename S>
+    AVector<Type> &operator/=(const AVector<S> &vec);
+    template<typename S>
+    AVector<Type> &div(const AVector<S> &vec);
 
     AVector<Type> operator-() const;
 
-    AVector<Type> operator+(const AVector<Type> &vec) const;
-    static AVector<Type> add(const AVector<Type> &vec1, const AVector<Type> &vec2);
-    static AVector<Type> add(const AVector<Type> &vec, const Type &val);
+    template<class S>
+    decltype(auto) operator+(const AVector<S> &vec) const;
+    template<class S>
+    static decltype(auto) add(const AVector<Type> &vec1, const AVector<S> &vec2);
+    template<class S>
+    decltype(auto) operator+(const S &val) const;
+    template<class S>
+    static decltype(auto) add(const AVector<Type> &vec, const S &val);
 
-    AVector<Type> operator-(const AVector<Type> &vec) const;
-    static AVector<Type> sub(const AVector<Type> &vec1, const AVector<Type> &vec2);
-    AVector<Type> operator-(const Type &val) const;
-    static AVector<Type> sub(const AVector<Type> &vec, const Type &val);
+    template<class S>
+    decltype(auto) operator-(const AVector<S> &vec) const;
+    template<class S>
+    static decltype(auto) sub(const AVector<Type> &vec1, const AVector<S> &vec2);
+    template<class S>
+    decltype(auto) operator-(const S &val) const;
+    template<class S>
+    static decltype(auto) sub(const AVector<Type> &vec, const S &val);
 
-    AVector<Type> operator*(const AVector<Type> &vec) const;
-    static AVector<Type> mult(const AVector<Type> &vec1, const AVector<Type> &vec2);
-    static AVector<Type> mult(const AVector<Type> &vec, const Type &val);
+    template<class S>
+    decltype(auto) operator*(const AVector<S> &vec) const;
+    template<class S>
+    static decltype(auto) mult(const AVector<Type> &vec1, const AVector<S> &vec2);
+    template<class S>
+    decltype(auto) operator*(const S &val) const;
+    template<class S>
+    static decltype(auto) mult(const AVector<Type> &vec, const S &val);
 
-    AVector<Type> operator/(const AVector<Type> &vec) const;
-    static AVector<Type> div(const AVector<Type> &vec1, const AVector<Type> &vec2);
-    AVector<Type> operator/(const Type &val) const;
-    static AVector<Type> div(const AVector<Type> &vec, const Type &val);
+    template<class S>
+    decltype(auto) operator/(const AVector<S> &vec) const;
+    template<class S>
+    static decltype(auto) div(const AVector<Type> &vec1, const AVector<S> &vec2);
+    template<class S>
+    decltype(auto) operator/(const S &val) const;
+    template<class S>
+    static decltype(auto) div(const AVector<Type> &vec, const S &val);
 
-    Type operator^(const AVector<Type> &vec) const;
-    static Type scalar_mult(const AVector<Type> &vec1, const AVector<Type> &vec2);
+    template<typename S>
+    decltype(auto) operator^(const AVector<S> &vec) const;
+    template<typename S>
+    static decltype(auto) scalar_mult(const AVector<Type> &vec1, const AVector<S> &vec2);
 
-    AVector<Type> operator&(const AVector<Type> &vec) const;
-    static AVector<Type> vector_mult(const AVector<Type> &vec1, const AVector<Type> &vec2);
+    template<typename S>
+    decltype(auto) operator&(const AVector<S> &vec) const;
+    template<typename S>
+    static decltype(auto) vector_mult(const AVector<Type> &vec1, const AVector<S> &vec2);
 
     AVector<Type> &operator++();
     AVector<Type> operator++(int);
@@ -131,7 +160,7 @@ public:
 
     AVector<Type> &neg();
     AVector<Type> &norm();
-    Type len() const;
+    size_t len() const;
     AVector<Type> &clear();
 
     //todo геттеры для const векторов
@@ -141,23 +170,12 @@ public:
     AVectorIter<Type> end();
     ConstAVectorIter<Type> begin() const;
     ConstAVectorIter<Type> end() const;
-    //todo внести методы, операции в класс(оставить только для коммутативности)
 private:
     shared_ptr<Type[]> data;
 
     void alloc(size_t size);
     void realloc(size_t size);
 };
-
-template<typename Type>
-AVector<Type> operator+(const Type &val, const AVector<Type> &vec);
-template<typename Type>
-AVector<Type> operator+(const AVector<Type> &vec, const Type &val);
-
-template<typename Type>
-AVector<Type> operator*(const AVector<Type> &vec, const Type &val);
-template<typename Type>
-AVector<Type> operator*(const Type &val, const AVector<Type> &vec);
 
 template<typename Type>
 istream &operator>>(istream &is, const AVector<Type> &vec) ;

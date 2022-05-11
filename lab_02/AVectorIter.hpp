@@ -6,13 +6,21 @@
 template<typename Type>
 void AVectorIter<Type>::check_data(string funk, int line) const
 {
-    if (ptr.expired()) throw MemoryError(__FILE__, funk, line, "The data pointed to by the iterator is not available");
+    if (ptr.expired())
+    {
+        time_t t_time = time(NULL);
+        throw MemoryError(__FILE__, funk, line, ctime(&t_time), "The data pointed to by the iterator is not available");
+    }
 }
 
 template<typename Type>
 void AVectorIter<Type>::check_index(string funk, int line) const
 {
-    if (index < 0 || index >= count) throw IterIndexError(__FILE__, funk, line, "Iterator out of range");
+    if (index < 0 || index >= count)
+    {
+        time_t t_time = time(NULL);
+        throw IterIndexError(__FILE__, funk, line, ctime(&t_time), "Iterator out of range");
+    }
 }
 
 template<typename Type>
@@ -93,27 +101,6 @@ AVectorIter<Type> &AVectorIter<Type>::operator=(const AVectorIter<Type> &iter)
 }
 
 template<typename Type>
-AVectorIter<Type> &AVectorIter<Type>::operator+=(int i)
-{
-    index += i;
-    return *this;
-}
-
-template<typename Type>
-AVectorIter<Type> &AVectorIter<Type>::operator-=(int i)
-{
-    index -= i;
-    return *this;
-}
-
-template<typename Type>
-AVectorIter<Type> AVectorIter<Type>::operator-(int i)
-{
-    AVectorIter<Type> res(*this);
-    return res -= i;
-}
-
-template<typename Type>
 AVectorIter<Type> &AVectorIter<Type>::operator++()
 {
     index += 1;
@@ -153,44 +140,6 @@ template<typename Type>
 bool AVectorIter<Type>::operator!=(const AVectorIter<Type> &iter) const
 {
     return !(*this == iter);
-}
-
-template<typename Type>
-bool AVectorIter<Type>::operator<(const AVectorIter<Type> &iter) const
-{
-    return this->ptr.lock() == iter.ptr.lock() && index < iter.index;
-}
-
-template<typename Type>
-bool AVectorIter<Type>::operator>(const AVectorIter<Type> &iter) const
-{
-    return this->ptr.lock() == iter.ptr.lock() && index > iter.index;
-}
-
-template<typename Type>
-bool AVectorIter<Type>::operator<=(const AVectorIter<Type> &iter) const
-{
-    return *this == iter || *this < iter;
-}
-
-template<typename Type>
-bool AVectorIter<Type>::operator>=(const AVectorIter<Type> &iter) const
-{
-    return *this == iter || *this > iter;
-}
-
-template<typename Type>
-AVectorIter<Type> operator+(const AVectorIter<Type> &iter, int i)
-{
-    AVectorIter<Type> res(iter);
-    return res += i;
-}
-
-template<typename Type>
-AVectorIter<Type> operator+(int i, const AVectorIter<Type> &iter)
-{
-    AVectorIter<Type> res(iter);
-    return res += i;
 }
 
 #endif
