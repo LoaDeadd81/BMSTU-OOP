@@ -51,6 +51,9 @@ public:
     AVector<Type> &operator=(AVector<Type> &&vec) noexcept;
 
     template<typename S>
+    AVector<Type> &operator=(const AVector<S> &vec);
+
+    template<typename S>
     AVector<Type> &operator+=(const AVector<S> &vec);
     template<typename S>
     AVector<Type> &add(const AVector<S> &vec);
@@ -172,8 +175,6 @@ private:
 
     void alloc(size_t size);
     void realloc(size_t size);
-    template<typename S>
-    AVector<Type> &assignment(const AVector<S> &vec);
 };
 
 template<typename Type>
