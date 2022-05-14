@@ -22,20 +22,20 @@ void check_const_iteraotors();
 
 int main()
 {
-//    check_constructors();
-//    check_methods();
-//    check_operators();
-//    check_extra_funcs();
-//    check_iteraotors();
-//    check_const_iteraotors();
+    check_constructors();
+    check_methods();
+    check_operators();
+    check_extra_funcs();
+    check_iteraotors();
+    check_const_iteraotors();
 
-    AVector a = {1, 2, 3};
-    AVector b = {complex(1), complex(2, 3), complex(4)};
-    AVector c = {3.4, 2.2, 3.3};
-    cout << a + c << endl;
-    cout << a + complex(1, 3) << endl;
-    a += c;
-    cout << a << endl;
+//    AVector a = {1, 2, 3};
+//    AVector b = {complex(1), complex(2, 3), complex(4)};
+//    AVector c = {3.4, 2.2, 3.3};
+//    cout << a + c << endl;
+//    cout << a + complex(1, 3) << endl;
+//    a += c;
+//    cout << a << endl;
 
     return 0;
 }
