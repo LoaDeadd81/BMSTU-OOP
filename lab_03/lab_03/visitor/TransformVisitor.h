@@ -3,48 +3,48 @@
 
 #include "ObjectVisitor.h"
 #include "Coord.h"
+#include "Model.h"
+#include "Camera.h"
+#include "CompositeObject.h"
 
-class TransformVisitor : public ObjectVisitor
+class TranformVisitor : public ObjectVisitor
 {
 public:
-    TransformVisitor()=default;
-    explicit TransformVisitor(const Coord3d &transform_data) : data(transform_data) {};
-    virtual ~TransformVisitor() override = default;
+    TranformVisitor() = default;
+    TranformVisitor(const Coord3d &data, const Coord3d &center = {0, 0, 0}) : center(center), data(data) {};
+    virtual ~TranformVisitor() override = default;
 protected:
-    Coord3d data;
+    Coord3d center, data;
 };
 
-class MoveVisitor : public TransformVisitor
+class MoveVisitor : public TranformVisitor
 {
 public:
-    MoveVisitor()=default;
-    explicit MoveVisitor(const Coord3d &transform_data) : TransformVisitor(transform_data) {};
+    MoveVisitor(const Coord3d &data);
     virtual ~MoveVisitor() override = default;
-    virtual void visit(FrameModel &model) override;
-    virtual void visit(BaseCamera &camera) override;
-    virtual void visit(Composite &composite) override;
+    virtual void visit(FrameModelImp &model) override;
+    virtual void visit(CameraImp &camera) override;
+    virtual void visit(CompositeObject &object) override;
 };
 
-class RotateVisitor : public TransformVisitor
+class RotateVisitor : public TranformVisitor
 {
 public:
-    RotateVisitor()=default;
-    explicit RotateVisitor(const Coord3d &transform_data) : TransformVisitor(transform_data) {};
+    RotateVisitor(const Coord3d &data, const Coord3d &center = {0, 0, 0});
     virtual ~RotateVisitor() override = default;
-    virtual void visit(FrameModel &model) override;
-    virtual void visit(BaseCamera &camera) override;
-    virtual void visit(Composite &composite) override;
+    virtual void visit(FrameModelImp &model) override;
+    virtual void visit(CameraImp &camera) override;
+    virtual void visit(CompositeObject &object) override;
 };
 
-class ScaleVisitor : public TransformVisitor
+class ScaleVisitor : public TranformVisitor
 {
 public:
-    ScaleVisitor()=default;
-    explicit ScaleVisitor(const Coord3d &transform_data) : TransformVisitor(transform_data) {};
+    ScaleVisitor(const Coord3d &data, const Coord3d &center = {0, 0, 0});
     virtual ~ScaleVisitor() override = default;
-    virtual void visit(FrameModel &model) override;
-    virtual void visit(BaseCamera &camera) override;
-    virtual void visit(Composite &composite) override;
+    virtual void visit(FrameModelImp &model) override;
+    virtual void visit(CameraImp &camera) override;
+    virtual void visit(CompositeObject &object) override;
 };
 
 #endif

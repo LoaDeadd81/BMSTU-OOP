@@ -1,16 +1,18 @@
 #ifndef OBJECTVISITOR_H
 #define OBJECTVISITOR_H
 
-#include "Model.h"
-#include "Camera.h"
+class FrameModelImp;
+class CameraImp;
+class CompositeObject;
+
 
 class ObjectVisitor
 {
 public:
-    virtual ~ObjectVisitor()=default;
-    virtual void visit(FrameModel &model) const = 0;
-    virtual void visit(BaseCamera &camera) const = 0;
-    virtual void visit(Composite &composite) = 0;
+    virtual ~ObjectVisitor() = default;
+    virtual void visit(FrameModelImp &model) = 0;
+    virtual void visit(CameraImp &camera) = 0;
+    virtual void visit(CompositeObject &object) = 0;
 };
 
 #endif

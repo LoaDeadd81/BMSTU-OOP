@@ -17,6 +17,12 @@ include_directories(objects
         scene
         camera
         visitor
+        commands
+        managers
+        creators
+        draw
+        build
+        solution
         )
 
 add_executable(${PROJECT_NAME}
@@ -24,12 +30,7 @@ add_executable(${PROJECT_NAME}
         qt_files/mainwindow.h
         qt_files/mainwindow.cpp
         qt_files/mainwindow.ui
-        scene/SceneInterface.cpp
-        scene/SceneInterface.h
-        scene/Scene.cpp
-        scene/Scene.h
-        objects/Objects.cpp
-        objects/Objects.h objects/VisibleObjects.h model/Model.cpp model/Model.h model/primitives.cpp model/primitives.h model/Coord.cpp model/Coord.h objects/InvisibleObject.h camera/Camera.cpp camera/Camera.h visitor/ObjectVisitor.h visitor/TransformVisitor.cpp visitor/TransformVisitor.h)
+        objects/SceneObjects.h model/Model.cpp model/Model.h model/primitives.cpp model/primitives.h model/Coord.cpp model/Coord.h camera/Camera.cpp camera/Camera.h visitor/ObjectVisitor.h objects/SimpleObject.h objects/CompositeObject.cpp objects/CompositeObject.h visitor/TransformVisitor.cpp visitor/TransformVisitor.h scene/Scene.cpp scene/Scene.h scene/BaseScene.h scene/SceneInterface.h commands/BaseCommand.h commands/Commands.cpp commands/Commands.h managers/BaseManager.h managers/Managers.cpp managers/Managers.h creators/CommandCreators.h creators/CommandCreators.cpp creators/VisitorCreators.cpp creators/VisitorCreators.h draw/Drawer.cpp draw/Drawer.h draw/DrawTools.h draw/QtDrawTools.cpp draw/QtDrawTools.h creators/QtToolCreators.cpp creators/QtToolCreators.h visitor/DrawVisitor.cpp visitor/DrawVisitor.h build/Loader.cpp build/Loader.h build/Builder.cpp build/Builder.h creators/FabricCreator.cpp creators/FabricCreator.h solution/FabricSolution.cpp solution/FabricSolution.h)
 
 #if (NOT CMAKE_PREFIX_PATH)
 #    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

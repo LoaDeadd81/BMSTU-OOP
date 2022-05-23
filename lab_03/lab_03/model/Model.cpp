@@ -5,6 +5,11 @@ FrameModelImp::FrameModelImp(vector<Dot> &dots, vector<Edge> &edges) : dots(dots
 
 }
 
+void FrameModelImp::accept(shared_ptr<ObjectVisitor> visitor)
+{
+    visitor->visit(*this);
+}
+
 vector<Dot>::iterator  FrameModelImp::DotBegin()
 {
     return dots.begin();
@@ -23,4 +28,14 @@ vector<Edge>::iterator FrameModelImp::EdgeBegin()
 vector<Edge>::iterator FrameModelImp::EdgeEnd()
 {
     return edges.end();
+}
+
+vector<Dot> &FrameModelImp::getDots()
+{
+    return dots;
+}
+
+vector<Edge> &FrameModelImp::getEdges()
+{
+    return edges;
 }
