@@ -3,7 +3,7 @@
 map<string, shared_ptr<FabricCreator>> FabricSolution::map;
 shared_ptr<FabricCreator> FabricSolution::current;
 
-void FabricSolution::registeraation(string &name, shared_ptr<FabricCreator> creator)
+void FabricSolution::registeraation(string name, shared_ptr<FabricCreator> creator)
 {
     map.insert(make_pair(name, creator));
 }

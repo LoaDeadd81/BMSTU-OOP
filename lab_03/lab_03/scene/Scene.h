@@ -9,7 +9,7 @@ class Scene : public BaseScene
     Scene() = default;
     virtual ~Scene() override = default;
     virtual size_t get_size() const override;
-    virtual shared_ptr<BaseCamera> get_cam() const override;
+    virtual shared_ptr<Camera> get_cam() const override;
     virtual void set_cam(size_t i) override;
     virtual void add_object(shared_ptr<SceneObject> obj) override;
     virtual void del_object(size_t i) override;

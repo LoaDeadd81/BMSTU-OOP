@@ -31,9 +31,9 @@ shared_ptr<BaseCommand> LoadCameraCommandCreator::create(string filename)
 }
 
 shared_ptr<BaseCommand>
-DrawCommandCreator::create(shared_ptr<BaseCanvas> canvas, shared_ptr<BasePen> pen, shared_ptr<BaseBrush> brush)
+DrawCommandCreator::create(shared_ptr<BaseDrawer> drawer)
 {
-    shared_ptr<BaseCommand> com = make_shared<DrawCommand>(canvas, pen, brush);
+    shared_ptr<BaseCommand> com = make_shared<DrawCommand>(drawer);
     return com;
 }
 

@@ -58,7 +58,7 @@ DrawCommand::DrawCommand(shared_ptr<BaseDrawer> drawer) : drawer(drawer)
 
 void DrawCommand::execute(shared_ptr<BaseScene> scene)
 {
-    DrawManager(scene).execute(canvas, pen, brush);
+    DrawManager(scene).execute(drawer);
 }
 
 TransformCommand::TransformCommand(size_t i, const Coord3d &data, const Coord3d &center)

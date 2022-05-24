@@ -6,7 +6,7 @@
 class FabricCreator
 {
 public:
-    virtual ~FabricCreator() = 0;
+    virtual ~FabricCreator() = default;
     virtual shared_ptr<BaseDrawerFactory> create() = 0;
 };
 

@@ -6,7 +6,7 @@
 class BaseCommand
 {
 public:
-    virtual ~BaseCommand() = 0;
+    virtual ~BaseCommand() = default;
     virtual void execute(shared_ptr<BaseScene> scene) = 0;
 };
 

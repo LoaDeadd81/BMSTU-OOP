@@ -52,10 +52,9 @@ shared_ptr<SceneObject> CameraBuilder::get()
     return camera;
 }
 
-ModelBuildDirector::ModelBuildDirector(shared_ptr<ModelBuilder> builder, shared_ptr<BaseLoader> loader) : builder(
-        builder), loader(loader)
+ModelBuildDirector::ModelBuildDirector(shared_ptr<BaseBuilder> builder, shared_ptr<BaseLoader> loader) : loader(loader)
 {
-
+    builder = dynamic_pointer_cast<ModelBuilder>(builder);
 }
 
 shared_ptr<SceneObject> ModelBuildDirector::create(string filename)
@@ -96,9 +95,9 @@ shared_ptr<SceneObject> ModelBuildDirector::create(string filename)
     return builder->get();
 }
 
-CameraBuildDirector::CameraBuildDirector(shared_ptr<CameraBuilder> builder, shared_ptr<BaseLoader> loader) :builder(builder), loader(loader)
+CameraBuildDirector::CameraBuildDirector(shared_ptr<BaseBuilder> builder, shared_ptr<BaseLoader> loader) : loader(loader)
 {
-
+    builder = dynamic_pointer_cast<CameraBuilder>(builder);
 }
 
 shared_ptr<SceneObject> CameraBuildDirector::create(string filename)

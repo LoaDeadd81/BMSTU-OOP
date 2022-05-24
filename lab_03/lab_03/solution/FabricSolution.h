@@ -12,7 +12,7 @@ class FabricSolution
 {
 public:
     ~FabricSolution() = default;
-    void registeraation(string &name, shared_ptr<FabricCreator> creator);
+    void registeraation(string name, shared_ptr<FabricCreator> creator);
     void configure(string name);
     shared_ptr<FabricCreator> get_creator();
 private:

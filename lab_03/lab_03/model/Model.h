@@ -10,7 +10,7 @@
 class BaseModelImp
 {
 public:
-    virtual ~BaseModelImp() = 0;
+    virtual ~BaseModelImp() = default;
     virtual void accept(shared_ptr<ObjectVisitor> visitor) = 0;
 };
 

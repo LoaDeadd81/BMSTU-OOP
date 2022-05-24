@@ -30,6 +30,18 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="LoadCamButton">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Загрузить камеру</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="Line" name="line">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -334,18 +346,6 @@
          <font>
           <pointsize>12</pointsize>
          </font>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="AddCameraButton">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Добавить камеру</string>
         </property>
        </widget>
       </item>

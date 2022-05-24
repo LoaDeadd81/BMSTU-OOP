@@ -25,7 +25,7 @@ public:
 class DrawVisitorCreator
 {
 public:
-    shared_ptr<ObjectVisitor> create(shared_ptr<BaseDrawer> drawer, shared_ptr<BaseCamera> camera);
+    shared_ptr<ObjectVisitor> create(shared_ptr<BaseDrawer> drawer, shared_ptr<Camera> camera);
 };
 
 #endif

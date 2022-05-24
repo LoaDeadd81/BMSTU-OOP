@@ -11,14 +11,14 @@ class DrawVisitor : public ObjectVisitor
 {
 public:
     DrawVisitor() = default;
-    DrawVisitor(shared_ptr<BaseDrawer> drawer, shared_ptr<BaseCamera> camera);
+    DrawVisitor(shared_ptr<BaseDrawer> drawer, shared_ptr<Camera> camera);
     virtual ~DrawVisitor() = default;
     virtual void visit(FrameModelImp &model) override;
-    virtual void visit(CameraImp &camera) override;
+    virtual void visit(Camera &camera) override;
     virtual void visit(CompositeObject &object) override;
 private:
     shared_ptr<BaseDrawer> drawer;
-    shared_ptr<BaseCamera> camera;
+    shared_ptr<Camera> camera;
 };
 
 #endif

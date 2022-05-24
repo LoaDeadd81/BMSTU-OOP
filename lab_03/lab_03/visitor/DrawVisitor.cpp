@@ -1,6 +1,6 @@
 #include "DrawVisitor.h"
 
-DrawVisitor::DrawVisitor(shared_ptr<BaseDrawer> drawer, shared_ptr<BaseCamera> camera) : drawer(drawer), camera(camera)
+DrawVisitor::DrawVisitor(shared_ptr<BaseDrawer> drawer, shared_ptr<Camera> camera) : drawer(drawer), camera(camera)
 {
 
 }

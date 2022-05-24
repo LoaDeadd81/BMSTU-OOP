@@ -3,13 +3,14 @@
 
 #include <fstream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
 class BaseLoader
 {
 public:
-    virtual ~BaseLoader() = 0;
+    virtual ~BaseLoader() = default;
     virtual void open(string file_name) = 0;
     virtual int get_num() = 0;
     virtual void close() = 0;

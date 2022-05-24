@@ -32,6 +32,34 @@ void ChangeCameraManager::execute(size_t i)
     scene->set_cam(i);
 }
 
+LoadObjectManager::LoadObjectManager(shared_ptr<BaseScene> scene) : BaseManager(scene)
+{
+
+}
+
+void LoadObjectManager::execute(string &filename)
+{
+    shared_ptr<BaseBuilder> builder = ModelBuilderSolution().get_creator()->create();
+    shared_ptr<BaseLoader> loader = LoaderSolution().get_creator()->create();
+    shared_ptr<BaseBuildDirector> director = ModelDirectorSolution().get_creator()->create(builder, loader);
+    shared_ptr<SceneObject> object = director->create(filename);
+    scene->add_object(object);
+}
+
+LoadCameraManager::LoadCameraManager(shared_ptr<BaseScene> scene) : BaseManager(scene)
+{
+
+}
+
+void LoadCameraManager::execute(string &filename)
+{
+    shared_ptr<BaseBuilder> builder = CameraBuilderSolution().get_creator()->create();
+    shared_ptr<BaseLoader> loader = LoaderSolution().get_creator()->create();
+    shared_ptr<BaseBuildDirector> director = CameraDirectorSolution().get_creator()->create(builder, loader);
+    shared_ptr<SceneObject> object = director->create(filename);
+    scene->add_object(object);
+}
+
 DrawManager::DrawManager(shared_ptr<BaseScene> scene) : BaseManager(scene)
 {
 
@@ -39,7 +67,9 @@ DrawManager::DrawManager(shared_ptr<BaseScene> scene) : BaseManager(scene)
 
 void DrawManager::execute(shared_ptr<BaseDrawer> drawer)
 {
-
+    shared_ptr<ObjectVisitor> visitor = DrawVisitorCreator().create(drawer, scene->get_cam());
+    for (auto i = scene->begin(); i != scene->end(); i++)
+        (*i)->accept(visitor);
 }
 
 MoveManager::MoveManager(shared_ptr<BaseScene> scene) : BaseManager(scene)

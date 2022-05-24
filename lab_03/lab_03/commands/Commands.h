@@ -69,7 +69,7 @@ public:
     virtual ~DrawCommand() override =default;
     virtual void execute(shared_ptr<BaseScene> scene) override;
 private:
-    shared_ptr<BaseDrawer> drawer
+    shared_ptr<BaseDrawer> drawer;
 };
 
 class TransformCommand : public BaseCommand

@@ -2,6 +2,7 @@
 #define PRIMITIVES_H
 
 #include <memory>
+#include <cmath>
 
 #include "ObjectVisitor.h"
 #include "Coord.h"
@@ -19,12 +20,18 @@ public:
     void move(const Coord3d &transform_data);
     void rotate(const Coord3d &center, const Coord3d &transform_data);
     void scale(const Coord3d &center, const Coord3d &transform_data);
-    void accept(shared_ptr<ObjectVisitor> visitor);
-protected:
+
+private:
     Coord3d pos;
+
+    void move_to_cente(const Coord3d &center);
+    void move_back(const Coord3d &center);
+    void yz_rotate(double cx);
+    void xz_rotate(double cy);
+    void xy_rotate(double cz);
 };
 
-//todo change scheme
+
 class Edge
 {
 public:
@@ -35,8 +42,8 @@ public:
     void setp2(size_t dot);
     size_t getp1() const;
     size_t getp2() const;
-    void accept(shared_ptr<ObjectVisitor> visitor);
-protected:
+
+private:
     size_t p1, p2;
 };
 

@@ -42,7 +42,7 @@ private:
 class BaseBuildDirector
 {
 public:
-    virtual ~BaseBuildDirector() = 0;
+    virtual ~BaseBuildDirector() = default;
     virtual shared_ptr<SceneObject> create(string filename) = 0;
 };
 
@@ -50,7 +50,7 @@ class ModelBuildDirector : public BaseBuildDirector
 {
 public:
     ModelBuildDirector() = default;
-    ModelBuildDirector(shared_ptr<ModelBuilder> builder, shared_ptr<BaseLoader> loader);
+    ModelBuildDirector(shared_ptr<BaseBuilder> builder, shared_ptr<BaseLoader> loader);
     virtual ~ModelBuildDirector() override = default;
     virtual shared_ptr<SceneObject> create(string filename) override;
 private:
@@ -62,7 +62,7 @@ class CameraBuildDirector : public BaseBuildDirector
 {
 public:
     CameraBuildDirector() = default;
-    CameraBuildDirector(shared_ptr<CameraBuilder> builder, shared_ptr<BaseLoader> loader);
+    CameraBuildDirector(shared_ptr<BaseBuilder> builder, shared_ptr<BaseLoader> loader);
     virtual ~CameraBuildDirector() override = default;
     virtual shared_ptr<SceneObject> create(string filename) override;
 private:

@@ -18,7 +18,7 @@ shared_ptr<ObjectVisitor> ScaleVisitorCreator::create(const Coord3d &data, const
     return visitor;
 }
 
-shared_ptr<ObjectVisitor> DrawVisitorCreator::create(shared_ptr<BaseDrawer> drawer, shared_ptr<BaseCamera> camera)
+shared_ptr<ObjectVisitor> DrawVisitorCreator::create(shared_ptr<BaseDrawer> drawer, shared_ptr<Camera> camera)
 {
     shared_ptr<ObjectVisitor> visitor = make_shared<DrawVisitor>(drawer, camera);
     return visitor;

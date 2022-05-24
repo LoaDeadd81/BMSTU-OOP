@@ -5,9 +5,9 @@ size_t Scene::get_size() const
     return objects.size();
 }
 
-list<shared_ptr<SceneObject>>::iterator Scene::get_cam() const
+shared_ptr<Camera> Scene::get_cam() const
 {
-    return cur_camera;
+    return dynamic_pointer_cast<Camera>(*cur_camera);
 }
 
 void Scene::set_cam(size_t i)

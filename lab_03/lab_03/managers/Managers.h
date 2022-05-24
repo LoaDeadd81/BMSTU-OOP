@@ -7,6 +7,10 @@
 #include "DrawTools.h"
 #include "FabricSolution.h"
 #include "Drawer.h"
+#include "Builder.h"
+#include "DirectorSolution.h"
+#include "BuilderSolution.h"
+#include "LoaderSolution.h"
 
 class AddObjectManager : public BaseManager
 {
@@ -35,24 +39,22 @@ public:
     void execute(size_t i);
 };
 
-//todo
 class LoadObjectManager : public BaseManager
 {
 public:
     LoadObjectManager() = default;
     explicit LoadObjectManager(shared_ptr<BaseScene> scene);
     virtual ~LoadObjectManager() override =default;
-    void execute(string filename);
+    void execute(string &filename);
 };
 
-//todo
 class LoadCameraManager : public BaseManager
 {
 public:
     LoadCameraManager() = default;
     explicit LoadCameraManager(shared_ptr<BaseScene> scene);
     virtual ~LoadCameraManager() override =default;
-    void execute(string filename);
+    void execute(string &filename);
 };
 
 

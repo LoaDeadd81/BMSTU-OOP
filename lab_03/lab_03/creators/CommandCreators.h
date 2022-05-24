@@ -36,7 +36,7 @@ public:
 class DrawCommandCreator
 {
 public:
-    shared_ptr<BaseCommand> create(shared_ptr<BaseCanvas> canvas, shared_ptr<BasePen> pen, shared_ptr<BaseBrush> brush);
+    shared_ptr<BaseCommand> create(shared_ptr<BaseDrawer> drawer);
 };
 
 class MoveCommandCreator

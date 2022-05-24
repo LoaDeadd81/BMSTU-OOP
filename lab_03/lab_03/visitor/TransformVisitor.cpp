@@ -10,7 +10,7 @@ void MoveVisitor::visit(FrameModelImp &model)
     for (auto i = model.DotBegin(); i != model.DotEnd(); i++) i->move(data);
 }
 
-void MoveVisitor::visit(CameraImp &camera)
+void MoveVisitor::visit(Camera &camera)
 {
     camera.move(data);
 }
@@ -31,7 +31,7 @@ void RotateVisitor::visit(FrameModelImp &model)
     for (auto i = model.DotBegin(); i != model.DotEnd(); i++) i->rotate(center, data);
 }
 
-void RotateVisitor::visit(CameraImp &camera)
+void RotateVisitor::visit(Camera &camera)
 {
     camera.rotate(data);
 }
@@ -52,7 +52,7 @@ void ScaleVisitor::visit(FrameModelImp &model)
     for (auto i = model.DotBegin(); i != model.DotEnd(); i++) i->scale(center, data);
 }
 
-void ScaleVisitor::visit(CameraImp &camera)
+void ScaleVisitor::visit(Camera &camera)
 {
 }
 
