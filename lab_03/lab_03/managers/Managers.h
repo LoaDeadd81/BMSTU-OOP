@@ -8,9 +8,9 @@
 #include "FabricSolution.h"
 #include "Drawer.h"
 #include "Builder.h"
-#include "DirectorSolution.h"
-#include "BuilderSolution.h"
-#include "LoaderSolution.h"
+#include "Solution.h"
+#include "Creator.h"
+#include "Error.h"
 
 class AddObjectManager : public BaseManager
 {

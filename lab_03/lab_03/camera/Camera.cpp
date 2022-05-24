@@ -25,6 +25,11 @@ void Camera::setDir(Coord3d &direction)
     dir = direction;
 }
 
+bool Camera::isViewer() const
+{
+    return true;
+}
+
 void Camera::move(const Coord3d &transform_data)
 {
     double new_x = pos.getX() + transform_data.getX(),
@@ -33,17 +38,17 @@ void Camera::move(const Coord3d &transform_data)
     pos = {new_x, new_y, new_z};
 }
 
-void Camera::rotate(const Coord3d &transform_data)
+void Camera::rotate(const Coord3d &transform_data, const Coord3d &center)
 {
-    double new_x = dir.getX() + transform_data.getX(),
-            new_y = dir.getY() + transform_data.getY(),
-            new_z = dir.getZ() + transform_data.getZ();
+    double new_x = fmod(dir.getX() + transform_data.getX(), 360),
+            new_y = fmod(dir.getY() + transform_data.getY(), 360),
+            new_z = fmod(dir.getZ() + transform_data.getZ(), 360);
     dir = {new_x, new_y, new_z};
 }
 
-bool Camera::isViewer() const
+void Camera::scale(const Coord3d &transform_data, const Coord3d &center)
 {
-    return true;
+
 }
 
 

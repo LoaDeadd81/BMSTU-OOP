@@ -4,6 +4,8 @@
 #include <fstream>
 #include <string>
 #include <memory>
+#include <Error.h>
+#include <ctime>
 
 using namespace std;
 

@@ -23,7 +23,6 @@ SOURCES += \
     draw/Drawer.cpp \
     draw/QtDrawTools.cpp \
     main.cpp \
-    mainwindow.cpp \
     managers/Managers.cpp \
     model/Coord.cpp \
     model/Model.cpp \
@@ -76,7 +75,6 @@ HEADERS += \
     visitor/TransformVisitor.h
 
 FORMS += \
-    mainwindow.ui \
     qt_files/mainwindow.ui
 
 # Default rules for deployment.
@@ -86,3 +84,16 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     data/cube.txt
+
+INCLUDEPATH = build/ \
+    camera/ \
+    commands/ \
+    creators/ \
+    draw/ \
+    managers/ \
+    model/ \
+    objects/ \
+    qt_files/ \
+    scene/ \
+    solution/ \
+    visitor/ \

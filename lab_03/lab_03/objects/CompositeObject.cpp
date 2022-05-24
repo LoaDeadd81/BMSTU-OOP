@@ -44,3 +44,18 @@ void CompositeObject::removeObject(list<shared_ptr<SceneObject>>::iterator iter)
 {
     objects.erase(iter);
 }
+
+void CompositeObject::move(const Coord3d &transform_data)
+{
+    for (auto &it: objects) it->move(transform_data);
+}
+
+void CompositeObject::rotate(const Coord3d &transform_data, const Coord3d &center)
+{
+    for (auto &it: objects) it->rotate(transform_data, center);
+}
+
+void CompositeObject::scale(const Coord3d &transform_data, const Coord3d &center)
+{
+    for (auto &it: objects) it->scale(transform_data, center);
+}

@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <memory>
 #include "ObjectVisitor.h"
+#include "Coord.h"
 
 using namespace std;
 
@@ -21,6 +22,9 @@ public:
     virtual size_t get_size() const {return 0;};
     virtual void addObject(shared_ptr<SceneObject> &obj) {};
     virtual void removeObject(list<shared_ptr<SceneObject>>::iterator iter) {};
+    virtual void move(const Coord3d &transform_data)=0;
+    virtual void rotate(const Coord3d &transform_data, const Coord3d &center = {0,0,0}) =0;
+    virtual void scale(const Coord3d &transform_data, const Coord3d &center= {0,0,0}) =0;
 };
 
 #endif

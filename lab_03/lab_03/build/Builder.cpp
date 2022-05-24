@@ -54,7 +54,7 @@ shared_ptr<SceneObject> CameraBuilder::get()
 
 ModelBuildDirector::ModelBuildDirector(shared_ptr<BaseBuilder> builder, shared_ptr<BaseLoader> loader) : loader(loader)
 {
-    builder = dynamic_pointer_cast<ModelBuilder>(builder);
+    this->builder = dynamic_pointer_cast<ModelBuilder>(builder);
 }
 
 shared_ptr<SceneObject> ModelBuildDirector::create(string filename)
@@ -90,14 +90,17 @@ shared_ptr<SceneObject> ModelBuildDirector::create(string filename)
     builder->init();
     builder->build_dots(dots);
     builder->build_edges(edges);
-    //todo проверка
-    if (~builder->check());
+    if (!builder->check())
+    {
+        time_t t_time = time(NULL);
+        throw BadModel(__FILE__, __FUNCTION__ , __LINE__, ctime(&t_time), "Bad model data");
+    }
     return builder->get();
 }
 
 CameraBuildDirector::CameraBuildDirector(shared_ptr<BaseBuilder> builder, shared_ptr<BaseLoader> loader) : loader(loader)
 {
-    builder = dynamic_pointer_cast<CameraBuilder>(builder);
+    this->builder = dynamic_pointer_cast<CameraBuilder>(builder);
 }
 
 shared_ptr<SceneObject> CameraBuildDirector::create(string filename)

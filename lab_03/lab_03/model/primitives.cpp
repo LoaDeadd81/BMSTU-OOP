@@ -28,7 +28,7 @@ void Dot::rotate(const Coord3d &center, const Coord3d &transform_data)
     move_to_cente(center);
 
     yz_rotate(transform_data.getX());
-    xz_rotate(transform_data.getZ());
+    xz_rotate(transform_data.getY());
     xy_rotate(transform_data.getZ());
 
     move_back(center);

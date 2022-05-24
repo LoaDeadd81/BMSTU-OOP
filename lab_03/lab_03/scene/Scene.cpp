@@ -12,8 +12,18 @@ shared_ptr<Camera> Scene::get_cam() const
 
 void Scene::set_cam(size_t i)
 {
+    if(i >= get_size())
+    {
+        time_t t_time = time(NULL);
+        throw RangeError(__FILE__, __FUNCTION__ , __LINE__, ctime(&t_time), "No camera with such index(index out of range)");
+    }
     auto it = objects.begin();
     for (size_t j = 0; j < i; j++, it++);
+    if(!(*it)->isViewer())
+    {
+        time_t t_time = time(NULL);
+        throw RangeError(__FILE__, __FUNCTION__ , __LINE__, ctime(&t_time), "No cam with such index");
+    }
     cur_camera = it;
 }
 
@@ -24,6 +34,11 @@ void Scene::add_object(shared_ptr<SceneObject> obj)
 
 void Scene::del_object(size_t i)
 {
+    if(i >= get_size())
+    {
+        time_t t_time = time(NULL);
+        throw RangeError(__FILE__, __FUNCTION__ , __LINE__, ctime(&t_time), "No object with such index(index out of range)");
+    }
     auto it = objects.begin();
     for (size_t j = 0; j < i; j++, it++);
     objects.erase(it);

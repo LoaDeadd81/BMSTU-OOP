@@ -58,6 +58,115 @@
        </widget>
       </item>
       <item>
+       <layout class="QGridLayout" name="ScaleGridLay_2" rowstretch="0,0,0">
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="ySpinBox">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QSpinBox" name="xSpinBox">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_11">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>y</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_12">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>z</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>x</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="3">
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Центр преобразований</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QSpinBox" name="zSpinBox">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QGridLayout" name="RotateGridLay" rowstretch="0,0,0">
         <item row="1" column="0">
          <widget class="QSpinBox" name="rxSpinBox">
@@ -65,6 +174,9 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-360</number>
           </property>
          </widget>
         </item>
@@ -74,6 +186,9 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-360</number>
           </property>
          </widget>
         </item>
@@ -98,6 +213,9 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-360</number>
           </property>
          </widget>
         </item>
@@ -154,6 +272,15 @@
             <pointsize>12</pointsize>
            </font>
           </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
          </widget>
         </item>
         <item row="1" column="2">
@@ -162,6 +289,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
           </property>
          </widget>
         </item>
@@ -186,6 +319,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
           </property>
          </widget>
         </item>
@@ -242,6 +381,12 @@
             <pointsize>12</pointsize>
            </font>
           </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
          </widget>
         </item>
         <item row="1" column="2">
@@ -250,6 +395,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
           </property>
          </widget>
         </item>
@@ -274,6 +425,12 @@
            <font>
             <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="minimum">
+           <number>-9999</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
           </property>
          </widget>
         </item>
@@ -341,7 +498,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="CameraComboBox">
+       <widget class="QComboBox" name="CamComboBox">
         <property name="font">
          <font>
           <pointsize>12</pointsize>

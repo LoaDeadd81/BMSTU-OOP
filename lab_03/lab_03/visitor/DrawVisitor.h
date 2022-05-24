@@ -19,6 +19,8 @@ public:
 private:
     shared_ptr<BaseDrawer> drawer;
     shared_ptr<Camera> camera;
+
+    Coord3d get_progection(Dot point, Camera &cam);
 };
 
 #endif

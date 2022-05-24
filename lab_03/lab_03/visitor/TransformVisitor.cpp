@@ -7,7 +7,7 @@ MoveVisitor::MoveVisitor(const Coord3d &data) : TranformVisitor(data)
 
 void MoveVisitor::visit(FrameModelImp &model)
 {
-    for (auto i = model.DotBegin(); i != model.DotEnd(); i++) i->move(data);
+    model.move(data);
 }
 
 void MoveVisitor::visit(Camera &camera)
@@ -17,8 +17,7 @@ void MoveVisitor::visit(Camera &camera)
 
 void MoveVisitor::visit(CompositeObject &object)
 {
-    shared_ptr<ObjectVisitor> tmp_ptr(this);
-    for (auto i = object.begin(); i != object.end(); i++) object.accept(tmp_ptr);
+    object.move(data);
 }
 
 RotateVisitor::RotateVisitor(const Coord3d &data, const Coord3d &center) : TranformVisitor(data, center)
@@ -28,7 +27,7 @@ RotateVisitor::RotateVisitor(const Coord3d &data, const Coord3d &center) : Tranf
 
 void RotateVisitor::visit(FrameModelImp &model)
 {
-    for (auto i = model.DotBegin(); i != model.DotEnd(); i++) i->rotate(center, data);
+    model.rotate(data, center);
 }
 
 void RotateVisitor::visit(Camera &camera)
@@ -38,8 +37,7 @@ void RotateVisitor::visit(Camera &camera)
 
 void RotateVisitor::visit(CompositeObject &object)
 {
-    shared_ptr<ObjectVisitor> tmp_ptr(this);
-    for (auto i = object.begin(); i != object.end(); i++) object.accept(tmp_ptr);
+    object.rotate(data, center);
 }
 
 ScaleVisitor::ScaleVisitor(const Coord3d &data, const Coord3d &center) : TranformVisitor(data, center)
@@ -49,7 +47,7 @@ ScaleVisitor::ScaleVisitor(const Coord3d &data, const Coord3d &center) : Tranfor
 
 void ScaleVisitor::visit(FrameModelImp &model)
 {
-    for (auto i = model.DotBegin(); i != model.DotEnd(); i++) i->scale(center, data);
+    model.scale(data, center);
 }
 
 void ScaleVisitor::visit(Camera &camera)
@@ -58,8 +56,7 @@ void ScaleVisitor::visit(Camera &camera)
 
 void ScaleVisitor::visit(CompositeObject &object)
 {
-    shared_ptr<ObjectVisitor> tmp_ptr(this);
-    for (auto i = object.begin(); i != object.end(); i++) object.accept(tmp_ptr);
+    object.scale(data, center);
 }
 
 

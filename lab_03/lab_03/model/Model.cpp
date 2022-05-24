@@ -39,3 +39,33 @@ vector<Edge> &FrameModelImp::getEdges()
 {
     return edges;
 }
+
+void FrameModelImp::move(const Coord3d &transform_data)
+{
+    for (auto &it : dots) it.move(transform_data);
+}
+
+void FrameModelImp::rotate(const Coord3d &transform_data, const Coord3d &center)
+{
+    for (auto &it : dots) it.rotate(center, transform_data);
+}
+
+void FrameModelImp::scale(const Coord3d &transform_data, const Coord3d &center)
+{
+    for (auto &it : dots) it.scale(center, transform_data);
+}
+
+void FrameModel::move(const Coord3d &transform_data)
+{
+    imp->move(transform_data);
+}
+
+void FrameModel::rotate(const Coord3d &transform_data, const Coord3d &center)
+{
+    imp->rotate(transform_data, center);
+}
+
+void FrameModel::scale(const Coord3d &transform_data, const Coord3d &center)
+{
+    imp->scale(transform_data, center);
+}

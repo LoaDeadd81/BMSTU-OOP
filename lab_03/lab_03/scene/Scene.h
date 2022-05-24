@@ -3,9 +3,11 @@
 
 #include "BaseScene.h"
 #include "Camera.h"
+#include "Error.h"
 
 class Scene : public BaseScene
 {
+public:
     Scene() = default;
     virtual ~Scene() override = default;
     virtual size_t get_size() const override;
