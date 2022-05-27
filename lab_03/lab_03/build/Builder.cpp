@@ -37,7 +37,7 @@ void CameraBuilder::init()
 
 void CameraBuilder::build_pos(double x, double y, double z)
 {
-    Coord3d pos(x, y, z);
+    Dot pos(x, y, z);
     camera->setPos(pos);
 }
 

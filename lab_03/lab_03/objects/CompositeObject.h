@@ -20,9 +20,11 @@ public:
     virtual void addObject(shared_ptr<SceneObject> &obj) override;
     virtual void removeObject(list<shared_ptr<SceneObject>>::iterator iter) override;
     virtual void move(const Coord3d &transform_data) override;
-    virtual void rotate(const Coord3d &transform_data, const Coord3d &center = {0,0,0}) override;
-    virtual void scale(const Coord3d &transform_data, const Coord3d &center = {0,0,0}) override;
-
+    virtual void rotate(const Coord3d &transform_data, const Coord3d &center) override;
+    virtual void scale(const Coord3d &transform_data, const Coord3d &center) override;
+    virtual void rotate(const Coord3d &transform_data) override;
+    virtual void scale(const Coord3d &transform_data) override;
+    virtual Coord3d get_center() override;
 private:
     list<shared_ptr<SceneObject>> objects;
 };

@@ -13,7 +13,8 @@ class Dot
 {
 public:
     Dot()=default;
-    explicit Dot(Coord3d &coord3D) : pos(coord3D) {};
+    explicit Dot(Coord3d coord3D) : pos(coord3D) {};
+    Dot(double x, double y, double z) : pos(x, y, z) {};
     ~Dot()=default;
     void setDot(const Coord3d &dot);
     Coord3d getDot() const;
