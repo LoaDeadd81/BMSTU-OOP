@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(_scene.get());
 
     init_scene();
+    ui->ObjectComboBox->addItem("Все объекты");
     create_first_cam();
 }
 
@@ -30,7 +31,7 @@ void MainWindow::on_LoadButton_clicked()
     }
     auto command = LoadObjectCommandCreator().create(filename);
     try
-    { _interface->execute(command); }
+    { _interface->execute(LOAD_OBJECT, command); }
     catch (FileError &e)
     {
         show_error_message("Ошибка чтения из файла");
@@ -56,7 +57,7 @@ void MainWindow::on_LoadCamButton_clicked()
     }
     auto command = LoadCameraCommandCreator().create(filename);
     try
-    { _interface->execute(command); }
+    { _interface->execute(LOAD_CAMERA, command); }
     catch (FileError &e)
     {
         show_error_message("Ошибка чтения из файла");
@@ -70,9 +71,20 @@ void MainWindow::on_LoadCamButton_clicked()
 void MainWindow::on_RotateButton_clicked()
 {
     Coord3d data = get_rotate_data(), center = get_center();
-    int i = ui->ObjectComboBox->currentIndex();
-    auto command = RotateCommandCreator().create(i, data, center);
-    _interface->execute(command);
+    if (ui->ObjectComboBox->currentIndex() == 0)
+    {
+        for (int i = 2; i < ui->ObjectComboBox->count(); i++)
+        {
+            auto command = RotateCommandCreator().create(i - 1, data, center);
+            _interface->execute(ROTATE, command);
+        }
+    }
+    else
+    {
+        int i = ui->ObjectComboBox->currentIndex() - 1;
+        auto command = RotateCommandCreator().create(i, data, center);
+        _interface->execute(ROTATE, command);
+    }
     update_scene();
 }
 
@@ -80,9 +92,20 @@ void MainWindow::on_RotateButton_clicked()
 void MainWindow::on_ScaleButton_clicked()
 {
     Coord3d data = get_scale_data(), center = get_center();
-    int i = ui->ObjectComboBox->currentIndex();
-    auto command = ScaleCommandCreator().create(i, data, center);
-    _interface->execute(command);
+    if (ui->ObjectComboBox->currentIndex() == 0)
+    {
+        for (int i = 2; i < ui->ObjectComboBox->count(); i++)
+        {
+            auto command = ScaleCommandCreator().create(i - 1, data, center);
+            _interface->execute(SCALE, command);
+        }
+    }
+    else
+    {
+        int i = ui->ObjectComboBox->currentIndex() - 1;
+        auto command = ScaleCommandCreator().create(i, data, center);
+        _interface->execute(SCALE, command);
+    }
     update_scene();
 }
 
@@ -90,9 +113,20 @@ void MainWindow::on_ScaleButton_clicked()
 void MainWindow::on_MoveButton_clicked()
 {
     Coord3d data = get_move_data();
-    int i = ui->ObjectComboBox->currentIndex();
-    auto command = MoveCommandCreator().create(i, data);
-    _interface->execute(command);
+    if (ui->ObjectComboBox->currentIndex() == 0)
+    {
+        for (int i = 2; i < ui->ObjectComboBox->count(); i++)
+        {
+            auto command = MoveCommandCreator().create(i - 1, data);
+            _interface->execute(MOVE, command);
+        }
+    }
+    else
+    {
+        int i = ui->ObjectComboBox->currentIndex() - 1;
+        auto command = MoveCommandCreator().create(i, data);
+        _interface->execute(MOVE, command);
+    }
     update_scene();
 }
 
@@ -107,9 +141,9 @@ void MainWindow::on_RemoveButton_clicked()
     }
     if (check_current_cam(i))
         switch_first_cam();
-    auto command = DelObjectCommandCreator().create(i);
+    auto command = DelObjectCommandCreator().create(i - 1);
     try
-    { _interface->execute(command); }
+    { _interface->execute(DEL, command); }
     catch (RangeError &e)
     {
         show_error_message("Нет объекта с таким индексом");
@@ -125,7 +159,7 @@ void MainWindow::on_CamComboBox_currentIndexChanged(int index)
     int cam_index = ui->CamComboBox->currentData().toInt();
     auto cam_command = ChangeCameraCommandCreator().create(cam_index);
     try
-    { _interface->execute(cam_command); }
+    { _interface->execute(CHANGE_CAM, cam_command); }
     catch (RangeError &e)
     {
         show_error_message("Нет камеры с таким индексом");
@@ -158,7 +192,7 @@ void MainWindow::update_scene()
 
     auto command = DrawCommandCreator().create(_drawer);
     try
-    { _interface->execute(command); }
+    { _interface->execute(DRAW, command); }
     catch (CamExistError &e)
     {
         show_error_message("Для отрисовки необходима хотя бы 1 камера");
@@ -169,10 +203,10 @@ void MainWindow::create_first_cam()
 {
     string filename = "C:/Users/vvolk/Documents/GitHub/BMSTU-OOP/lab_03/lab_03/data/cam.txt";
     auto command = LoadCameraCommandCreator().create(filename);
-    _interface->execute(command);
+    _interface->execute(LOAD_CAMERA, command);
 
     auto cam_command = ChangeCameraCommandCreator().create(0);
-    _interface->execute(cam_command);
+    _interface->execute(CHANGE_CAM, cam_command);
     ui->ObjectComboBox->addItem("Камера");
     ui->CamComboBox->addItem("Камера", 0);
 }
@@ -229,7 +263,7 @@ void MainWindow::switch_first_cam()
 {
     int cam_index = ui->CamComboBox->itemData(0).toInt();
     auto cam_command = ChangeCameraCommandCreator().create(cam_index);
-    _interface->execute(cam_command);
+    _interface->execute(CHANGE_CAM, cam_command);
 }
 
 Coord3d MainWindow::get_center()

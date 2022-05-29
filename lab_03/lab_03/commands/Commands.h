@@ -12,7 +12,7 @@ public:
     DelObjectCommand() = default;
     explicit DelObjectCommand(size_t i);
     virtual ~DelObjectCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 private:
     size_t index;
 };
@@ -23,7 +23,7 @@ public:
     AddObjectCommand() = default;
     explicit AddObjectCommand(shared_ptr<SceneObject> obj);
     virtual ~AddObjectCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 private:
     shared_ptr<SceneObject> object;
 };
@@ -34,7 +34,7 @@ public:
     ChangeCameraCommand() = default;
     explicit ChangeCameraCommand(size_t i);
     virtual ~ChangeCameraCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 private:
     size_t index;
 };
@@ -46,7 +46,7 @@ public:
     LoadObjectCommand() = default;
     explicit LoadObjectCommand(string filename);
     virtual ~LoadObjectCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 protected:
     string filename;
 };
@@ -57,7 +57,7 @@ public:
     LoadCameraCommand() = default;
     explicit LoadCameraCommand(string filename);
     virtual ~LoadCameraCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 };
 
 
@@ -67,7 +67,7 @@ public:
     DrawCommand() = default;
     explicit DrawCommand(shared_ptr<BaseDrawer> drawer);
     virtual ~DrawCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 private:
     shared_ptr<BaseDrawer> drawer;
 };
@@ -89,25 +89,25 @@ public:
     MoveCommand() = default;
     explicit MoveCommand(size_t i, const Coord3d &data);
     virtual ~MoveCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 };
 
 class RotateCommand : public TransformCommand
 {
 public:
     RotateCommand() = default;
-    explicit RotateCommand(size_t i, const Coord3d &data, const Coord3d &center = {0, 0, 0});
+    explicit RotateCommand(size_t i, const Coord3d &data, const Coord3d &center);
     virtual ~RotateCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 };
 
 class ScaleCommand : public TransformCommand
 {
 public:
     ScaleCommand() = default;
-    explicit ScaleCommand(size_t i, const Coord3d &data, const Coord3d &center = {0, 0, 0});
+    explicit ScaleCommand(size_t i, const Coord3d &data, const Coord3d &center);
     virtual ~ScaleCommand() override =default;
-    virtual void execute(shared_ptr<BaseScene> scene) override;
+    virtual void execute(shared_ptr<BaseManager> manager) override;
 };
 
 

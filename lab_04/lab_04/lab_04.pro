@@ -9,10 +9,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Cabin.cpp \
+    Controller.cpp \
+    Doors.cpp \
+    Elevator.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    Cabin.h \
+    Controller.h \
+    Doors.h \
+    Elevator.h \
     mainwindow.h
 
 FORMS += \
@@ -22,3 +30,7 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    CMakeLists.txt \
+    lab_04.pro.user

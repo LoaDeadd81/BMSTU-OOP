@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <iostream>
+
+#include "Elevator.h"
+
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,5 +41,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    Elevator elevator;
 };
 #endif // MAINWINDOW_H

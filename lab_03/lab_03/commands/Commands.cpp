@@ -1,13 +1,13 @@
 #include "Commands.h"
 
+
 DelObjectCommand::DelObjectCommand(size_t i) : index(i)
 {
-
 }
 
-void DelObjectCommand::execute(shared_ptr<BaseScene> scene)
+void DelObjectCommand::execute(shared_ptr<BaseManager> manager)
 {
-    DelObjectManager(scene).execute(index);
+    dynamic_pointer_cast<DelObjectManager>(manager)->execute(index);
 }
 
 AddObjectCommand::AddObjectCommand(shared_ptr<SceneObject> obj) : object(obj)
@@ -15,9 +15,9 @@ AddObjectCommand::AddObjectCommand(shared_ptr<SceneObject> obj) : object(obj)
 
 }
 
-void AddObjectCommand::execute(shared_ptr<BaseScene> scene)
+void AddObjectCommand::execute(shared_ptr<BaseManager> manager)
 {
-    AddObjectManager(scene).execute(object);
+    dynamic_pointer_cast<AddObjectManager>(manager)->execute(object);
 }
 
 ChangeCameraCommand::ChangeCameraCommand(size_t i) : index(i)
@@ -25,9 +25,9 @@ ChangeCameraCommand::ChangeCameraCommand(size_t i) : index(i)
 
 }
 
-void ChangeCameraCommand::execute(shared_ptr<BaseScene> scene)
+void ChangeCameraCommand::execute(shared_ptr<BaseManager> manager)
 {
-    ChangeCameraManager(scene).execute(index);
+    dynamic_pointer_cast<ChangeCameraManager>(manager)->execute(index);
 }
 
 LoadObjectCommand::LoadObjectCommand(string filename) : filename(filename)
@@ -35,9 +35,9 @@ LoadObjectCommand::LoadObjectCommand(string filename) : filename(filename)
 
 }
 
-void LoadObjectCommand::execute(shared_ptr<BaseScene> scene)
+void LoadObjectCommand::execute(shared_ptr<BaseManager> manager)
 {
-    LoadObjectManager(scene).execute(filename);
+    dynamic_pointer_cast<LoadObjectManager>(manager)->execute(filename);
 }
 
 LoadCameraCommand::LoadCameraCommand(string filename) : LoadObjectCommand(filename)
@@ -45,9 +45,9 @@ LoadCameraCommand::LoadCameraCommand(string filename) : LoadObjectCommand(filena
 
 }
 
-void LoadCameraCommand::execute(shared_ptr<BaseScene> scene)
+void LoadCameraCommand::execute(shared_ptr<BaseManager> manager)
 {
-    LoadCameraManager(scene).execute(filename);
+    dynamic_pointer_cast<LoadCameraManager>(manager)->execute(filename);
 }
 
 
@@ -56,9 +56,9 @@ DrawCommand::DrawCommand(shared_ptr<BaseDrawer> drawer) : drawer(drawer)
 
 }
 
-void DrawCommand::execute(shared_ptr<BaseScene> scene)
+void DrawCommand::execute(shared_ptr<BaseManager> manager)
 {
-    DrawManager(scene).execute(drawer);
+    dynamic_pointer_cast<DrawManager>(manager)->execute(drawer);
 }
 
 TransformCommand::TransformCommand(size_t i, const Coord3d &data, const Coord3d &center)
@@ -72,9 +72,9 @@ MoveCommand::MoveCommand(size_t i, const Coord3d &data) : TransformCommand(i, da
 
 }
 
-void MoveCommand::execute(shared_ptr<BaseScene> scene)
+void MoveCommand::execute(shared_ptr<BaseManager> manager)
 {
-    MoveManager(scene).execute(index, data);
+    dynamic_pointer_cast<MoveManager>(manager)->execute(index, data);
 }
 
 RotateCommand::RotateCommand(size_t i, const Coord3d &data, const Coord3d &center) : TransformCommand(i, data, center)
@@ -82,9 +82,9 @@ RotateCommand::RotateCommand(size_t i, const Coord3d &data, const Coord3d &cente
 
 }
 
-void RotateCommand::execute(shared_ptr<BaseScene> scene)
+void RotateCommand::execute(shared_ptr<BaseManager> manager)
 {
-    RotateManager(scene).execute(index, data, center);
+    dynamic_pointer_cast<RotateManager>(manager)->execute(index, data, center);
 }
 
 ScaleCommand::ScaleCommand(size_t i, const Coord3d &data, const Coord3d &center) : TransformCommand(i, data, center)
@@ -92,9 +92,9 @@ ScaleCommand::ScaleCommand(size_t i, const Coord3d &data, const Coord3d &center)
 
 }
 
-void ScaleCommand::execute(shared_ptr<BaseScene> scene)
+void ScaleCommand::execute(shared_ptr<BaseManager> manager)
 {
-    ScaleManager(scene).execute(index, data, center);
+    dynamic_pointer_cast<ScaleManager>(manager)->execute(index, data, center);
 }
 
 

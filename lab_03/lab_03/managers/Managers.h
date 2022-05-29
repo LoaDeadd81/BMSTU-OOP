@@ -12,6 +12,7 @@
 #include "Creator.h"
 #include "Error.h"
 
+
 class AddObjectManager : public BaseManager
 {
 public:
@@ -82,7 +83,7 @@ public:
     RotateManager() = default;
     RotateManager(shared_ptr<BaseScene> scene);
     virtual ~RotateManager() override = default;
-    void execute(size_t i, const Coord3d &data, const Coord3d &center = {0, 0, 0});
+    void execute(size_t i, const Coord3d &data, const Coord3d &center);
 };
 
 class ScaleManager : public BaseManager

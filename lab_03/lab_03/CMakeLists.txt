@@ -93,7 +93,7 @@ add_executable(lab_03_oop
         solution/LoaderSolution.cpp
         solution/LoaderSolution.h
         solution/Solution.h
-        creators/Creator.h errors/Error.cpp errors/Error.h)
+        creators/Creator.h errors/Error.cpp errors/Error.h scene/SceneInterface.cpp)
 
 target_link_libraries(lab_03_oop
         Qt::Core

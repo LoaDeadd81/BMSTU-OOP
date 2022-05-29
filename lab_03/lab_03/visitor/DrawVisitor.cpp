@@ -28,9 +28,10 @@ void DrawVisitor::visit(CompositeObject &object)
 
 Coord3d DrawVisitor::get_progection(Dot point, Camera &cam)
 {
-    Coord3d move_data(-cam.pos.getX(), -cam.pos.getY(), -cam.pos.getZ()),
-    rotate_data(-cam.dir.getX(), -cam.dir.getY(), -cam.dir.getZ());
+    Coord3d cam_pos = cam.pos.getDot();
+    Coord3d move_data(-cam_pos.getX(), -cam_pos.getY(), -cam_pos.getZ()),
+    rotate_data(-cam.angles.getX(), -cam.angles.getY(), -cam.angles.getZ());
     point.move(move_data);
-    point.rotate(cam.pos, rotate_data);
+    point.rotate(cam_pos, rotate_data);
     return point.getDot();
 }
