@@ -4,14 +4,14 @@ Cabin::Cabin(QObject *parent) : QObject(parent), state(CabinState::STAND)
 {
     move_timer.setSingleShot(true);
     move_timer.setInterval(MOVE_TIME);
+    connect(&move_timer, SIGNAL(timeout()), this, SLOT(moved()));
     connect(this, SIGNAL(stopped()), &doors, SLOT(open()));
-    connect(&doors, SIGNAL(closed()), this, SLOT(stop()));
-    connect(&move_timer, SIGNAL(timeout()), this, SLOT(on_passed_floor()));
+    connect(&doors, SIGNAL(closed()), this, SLOT(ready()));
 }
 
 void Cabin::move_up()
 {
-    if (state != CabinState::MOVE_UP && state != CabinState::STAND)
+    if (state != CabinState::MOVED && state != CabinState::STAND && state != CabinState::READY)
         return;
     state = CabinState::MOVE_UP;
     move_timer.start();
@@ -19,31 +19,42 @@ void Cabin::move_up()
 
 void Cabin::move_down()
 {
-    if (state != CabinState::MOVE_DOWN && state != CabinState::STAND)
+    if (state != CabinState::MOVED && state != CabinState::STAND && state != CabinState::READY)
         return;
     state = CabinState::MOVE_DOWN;
     move_timer.start();
 }
 
-void Cabin::on_passed_floor()
+void Cabin::moved()
 {
+    if (state != CabinState::MOVE_UP && state != CabinState::MOVE_DOWN)
+        return;
+    state = CabinState::MOVED;
     emit passed_floor();
 }
 
 void Cabin::wait()
 {
-//    if(state == CabinState::WAIT)
-//        return;
-    state = CabinState::WAIT;
+    if(state != CabinState::READY && state != CabinState::MOVED && state != CabinState::STAND && state != CabinState::WAITING)
+        return;
+    state = CabinState::WAITING;
     emit stopped();
+}
+
+void Cabin::ready()
+{
+    if(state != CabinState::WAITING)
+        return;
+    state = CabinState::READY;
+    emit ready_move();
 }
 
 void Cabin::stop()
 {
-    if (state != CabinState::WAIT)
+    if (state != CabinState::READY)
         return;
     state = CabinState::STAND;
-    emit on_floor();
+    emit standing();
 }
 
 

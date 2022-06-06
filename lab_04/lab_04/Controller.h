@@ -20,15 +20,17 @@ using list = std::list<Type>;
 
 enum class ControllerState
 {
-    BUSY, FREE
+    FREE, SOLVE, WAIT, READY
 };
 
 class Controller : public QObject
 {
 Q_OBJECT
 public slots:
-    void on_passed_floor();
-    void on_floor();
+    void solve();
+    void inform();
+    void waited();
+    void chill();
 public:
     Controller(QObject *parent = nullptr);
     void set_target(int floor);
@@ -36,7 +38,11 @@ signals:
     void move_up_solution();
     void move_down_solution();
     void stop_solution();
+    void stand_solution();
+
     void target_added();
+    void solved();
+    void ready();
 private:
     ControllerState state;
     int cur_floor;
@@ -44,9 +50,9 @@ private:
     int direction;
     bool floor_status[FLOOR_NUM];
 
-    void move();
     bool have_targets();
     void new_target();
+    void update_target();
     void set_direction();
     void del_target();
     bool new_up_target();

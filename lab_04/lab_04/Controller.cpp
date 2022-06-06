@@ -5,42 +5,62 @@ Controller::Controller(QObject *parent) : QObject(parent), state(ControllerState
                                           direction(NO_DIR)
 {
     for (bool &floor_statu: floor_status) floor_statu = false;
-    QObject::connect(this, SIGNAL(target_added()), this, SLOT(on_floor()));
+    QObject::connect(this, SIGNAL(target_added()), this, SLOT(solve()));
+    QObject::connect(this, SIGNAL(ready()), this, SLOT(solve()));
+    QObject::connect(this, SIGNAL(solved()), this, SLOT(inform()));
 }
 
-void Controller::on_passed_floor()
+void Controller::solve()
 {
-    cur_floor += direction;
-    state = ControllerState::BUSY;
-//    debug_print(__FUNCTION__);
-    if (cur_floor == target_floor) cout << "Elevator stopped on " << cur_floor + 1 << " floor " << endl;
-    else cout << "Elevator passing " << cur_floor + 1 << " floor " << endl;
-    move();
-}
-
-void Controller::on_floor()
-{
-    if (!have_targets())
-    {
-        direction = NO_DIR;
-        state = ControllerState::FREE;
+    if (state != ControllerState::FREE && state != ControllerState::READY && state != ControllerState::WAIT)
         return;
-    }
+    state = ControllerState::SOLVE;
+    cur_floor += direction;
     new_target();
     set_direction();
-//    debug_print(__FUNCTION__);
-    move();
+    emit solved();
 }
 
-void Controller::move()
+void Controller::inform()
 {
-    if (cur_floor == target_floor)
+    if (state != ControllerState::SOLVE)
+        return;
+    state = ControllerState::WAIT;
+    if (!have_targets())
+            emit stand_solution();
+    else if (direction == NO_DIR)
     {
         del_target();
+        cout << "Elevator stopped on " << cur_floor + 1 << " floor" << endl;
         emit stop_solution();
     }
-    if (direction == UP) emit move_up_solution();
-    if (direction == DOWN) emit move_down_solution();
+    else if (direction == UP)
+    {
+        emit move_up_solution();
+    }
+    else if (direction == DOWN)
+    {
+        emit move_down_solution();
+    }
+}
+
+void Controller::waited()
+{
+    if (state != ControllerState::WAIT)
+        return;
+    state = ControllerState::READY;
+    if (direction == UP)
+        cout << "Elevator passed " << cur_floor + 1 << " floor" << endl;
+    else if (direction == DOWN)
+        cout << "Elevator passed " << cur_floor + 1 << " floor" << endl;
+    emit ready();
+}
+
+void Controller::chill()
+{
+    if (state != ControllerState::WAIT)
+        return;
+    state = ControllerState::FREE;
 }
 
 void Controller::set_target(int floor)
@@ -72,9 +92,28 @@ void Controller::new_target()
     }
 }
 
+void Controller::update_target()
+{
+    if (direction != DOWN)
+    {
+        bool found = new_up_target();
+        if (!found)
+            new_down_target();
+    }
+    else
+    {
+        bool found = new_down_target();
+        if (!found)
+            new_up_target();
+    }
+}
+
 void Controller::set_direction()
 {
-    direction = (cur_floor < target_floor) ? UP : DOWN;
+    if (cur_floor == target_floor)
+        direction = NO_DIR;
+    else
+        direction = (cur_floor < target_floor) ? UP : DOWN;
 }
 
 void Controller::del_target()
@@ -85,7 +124,7 @@ void Controller::del_target()
 bool Controller::new_up_target()
 {
     bool res = false;
-    int i = cur_floor - 1;
+    int i = cur_floor;
     for (; !res && i < FLOOR_NUM; i++) res = floor_status[i];
     if (res) target_floor = i - 1;
     return res;
@@ -94,7 +133,7 @@ bool Controller::new_up_target()
 bool Controller::new_down_target()
 {
     bool res = false;
-    int i = cur_floor - 1;
+    int i = cur_floor;
     for (; !res && i >= 0; i--) res = floor_status[i];
     if (res) target_floor = i + 1;
     return res;
