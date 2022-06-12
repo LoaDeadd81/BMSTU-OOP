@@ -7,7 +7,7 @@
 
 enum class CabinState
 {
-    MOVE_UP, MOVE_DOWN, WAITING, STAND, MOVED, READY
+    MOVING_UP, MOVING_DOWN, WAITING, STAND, MOVED, READY
 };
 
 class Cabin : public QObject

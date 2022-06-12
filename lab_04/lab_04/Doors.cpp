@@ -17,7 +17,7 @@ Doors::Doors(QObject *parent) : QObject(parent), state(DoorState::CLOSED)
 
 void Doors::open()
 { 
-    if(state != DoorState::CLOSED && state != DoorState::CLOSING)
+    if(state != DoorState::CLOSED)
         return;
     state = DoorState::OPENING;
     cout << "Doors are opening" << endl;

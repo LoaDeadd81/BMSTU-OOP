@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define DOOR_MOVE_TIME 2000
+#define DOOR_MOVE_TIME 500
 #define DOOR_WAIT_TIME 1000
 
 enum class DoorState
@@ -20,17 +20,15 @@ class Doors : public QObject
 Q_OBJECT
 public slots:
     void open();
+    void opening();
+    void close();
+    void closing();
 
 public:
     Doors(QObject *parent = nullptr);
 
 signals:
     void closed();
-
-private slots:
-    void opening();
-    void close();
-    void closing();
 
 private:
     DoorState state;

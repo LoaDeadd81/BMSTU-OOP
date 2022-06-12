@@ -12,10 +12,9 @@ Controller::Controller(QObject *parent) : QObject(parent), state(ControllerState
 
 void Controller::solve()
 {
-    if (state != ControllerState::FREE && state != ControllerState::READY && state != ControllerState::WAIT)
+    if (state != ControllerState::FREE && state != ControllerState::READY)
         return;
     state = ControllerState::SOLVE;
-    cur_floor += direction;
     new_target();
     set_direction();
     emit solved();
@@ -35,13 +34,9 @@ void Controller::inform()
         emit stop_solution();
     }
     else if (direction == UP)
-    {
-        emit move_up_solution();
-    }
+            emit move_up_solution();
     else if (direction == DOWN)
-    {
-        emit move_down_solution();
-    }
+            emit move_down_solution();
 }
 
 void Controller::waited()
@@ -49,10 +44,9 @@ void Controller::waited()
     if (state != ControllerState::WAIT)
         return;
     state = ControllerState::READY;
-    if (direction == UP)
+    if (direction != NO_DIR)
         cout << "Elevator passed " << cur_floor + 1 << " floor" << endl;
-    else if (direction == DOWN)
-        cout << "Elevator passed " << cur_floor + 1 << " floor" << endl;
+    cur_floor += direction;
     emit ready();
 }
 

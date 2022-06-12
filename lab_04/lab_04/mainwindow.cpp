@@ -21,14 +21,14 @@ void MainWindow::on_pushButton_9_clicked()
 
 void MainWindow::on_pushButton_8_clicked()
 {
-    cout << "Was clicked Button 8 on lift controller." << endl;
-    elevator.call(8);
+    cout << "Was clicked Button 7 on lift controller." << endl;
+    elevator.call(7);
 }
 
 void MainWindow::on_pushButton_7_clicked()
 {
-    cout << "Was clicked Button 7 on lift controller." << endl;
-    elevator.call(7);
+    cout << "Was clicked Button 8 on lift controller." << endl;
+    elevator.call(8);
 }
 
 void MainWindow::on_pushButton_6_clicked()

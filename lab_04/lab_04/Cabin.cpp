@@ -13,7 +13,7 @@ void Cabin::move_up()
 {
     if (state != CabinState::MOVED && state != CabinState::STAND && state != CabinState::READY)
         return;
-    state = CabinState::MOVE_UP;
+    state = CabinState::MOVING_UP;
     move_timer.start();
 }
 
@@ -21,13 +21,13 @@ void Cabin::move_down()
 {
     if (state != CabinState::MOVED && state != CabinState::STAND && state != CabinState::READY)
         return;
-    state = CabinState::MOVE_DOWN;
+    state = CabinState::MOVING_DOWN;
     move_timer.start();
 }
 
 void Cabin::moved()
 {
-    if (state != CabinState::MOVE_UP && state != CabinState::MOVE_DOWN)
+    if (state != CabinState::MOVING_UP && state != CabinState::MOVING_DOWN)
         return;
     state = CabinState::MOVED;
     emit passed_floor();
@@ -35,7 +35,7 @@ void Cabin::moved()
 
 void Cabin::wait()
 {
-    if(state != CabinState::READY && state != CabinState::MOVED && state != CabinState::STAND && state != CabinState::WAITING)
+    if(state != CabinState::READY && state != CabinState::MOVED && state != CabinState::STAND)
         return;
     state = CabinState::WAITING;
     emit stopped();
